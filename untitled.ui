@@ -27,7 +27,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QTabWidget" name="MainTab">
+   <widget class="QTabWidget" name="CellTab">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -41,7 +41,7 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Main</string>
      </attribute>
      <widget class="PlotWidget" name="graphWidget_current" native="true">
       <property name="geometry">
@@ -436,12 +436,12 @@ p, li { white-space: pre-wrap; }
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Diagram</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>Page</string>
+      <string>Cells</string>
      </attribute>
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
