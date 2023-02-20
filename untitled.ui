@@ -30,14 +30,14 @@
    <widget class="QTabWidget" name="CellTab">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>60</x>
       <y>0</y>
       <width>701</width>
       <height>541</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -113,6 +113,9 @@
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::TextSelectableByMouse</set>
       </property>
      </widget>
      <widget class="QTextEdit" name="textEdit_2">
@@ -398,8 +401,8 @@
         <rect>
          <x>20</x>
          <y>30</y>
-         <width>91</width>
-         <height>21</height>
+         <width>90</width>
+         <height>22</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -407,6 +410,9 @@
          <horstretch>0</horstretch>
          <verstretch>2</verstretch>
         </sizepolicy>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -433,6 +439,28 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </widget>
+     <zorder>frame_2</zorder>
+     <zorder>graphWidget_current</zorder>
+     <zorder>graphWidget_volt</zorder>
+     <zorder>current_label</zorder>
+     <zorder>voltage_label</zorder>
+     <zorder>plainTextEdit</zorder>
+     <zorder>textEdit</zorder>
+     <zorder>textEdit_2</zorder>
+     <zorder>textEdit_4</zorder>
+     <zorder>textEdit_3</zorder>
+     <zorder>label_3</zorder>
+     <zorder>label_2</zorder>
+     <zorder>label_5</zorder>
+     <zorder>label_4</zorder>
+     <zorder>textEdit_6</zorder>
+     <zorder>label_6</zorder>
+     <zorder>textEdit_7</zorder>
+     <zorder>label_7</zorder>
+     <zorder>progressBar</zorder>
+     <zorder>label_8</zorder>
+     <zorder>frame</zorder>
+     <zorder>frame_3</zorder>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -443,8 +471,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>90</x>
         <y>40</y>
-        <width>541</width>
-        <height>421</height>
+        <width>532</width>
+        <height>413</height>
        </rect>
       </property>
       <row>
@@ -882,7 +910,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableWidget" name="tableWidget_22">
       <property name="geometry">
        <rect>
-        <x>146</x>
+        <x>150</x>
         <y>290</y>
         <width>92</width>
         <height>212</height>
@@ -938,7 +966,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableWidget" name="tableWidget_23">
       <property name="geometry">
        <rect>
-        <x>353</x>
+        <x>360</x>
         <y>290</y>
         <width>92</width>
         <height>212</height>
@@ -991,66 +1019,10 @@ p, li { white-space: pre-wrap; }
        </property>
       </column>
      </widget>
-     <widget class="QTableWidget" name="tableWidget_24">
-      <property name="geometry">
-       <rect>
-        <x>236</x>
-        <y>290</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-     </widget>
      <widget class="QTableWidget" name="tableWidget_25">
       <property name="geometry">
        <rect>
-        <x>443</x>
+        <x>450</x>
         <y>290</y>
         <width>92</width>
         <height>212</height>
@@ -1168,6 +1140,161 @@ p, li { white-space: pre-wrap; }
        <string>Box5</string>
       </property>
      </widget>
+     <widget class="QFrame" name="frame_4">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>201</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_5">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>20</y>
+        <width>201</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_6">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>20</y>
+        <width>201</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_7">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>270</y>
+        <width>201</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="tableWidget_24">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>92</width>
+         <height>212</height>
+        </rect>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_8">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>270</y>
+        <width>201</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <zorder>frame_8</zorder>
+     <zorder>frame_7</zorder>
+     <zorder>frame_6</zorder>
+     <zorder>frame_5</zorder>
+     <zorder>frame_4</zorder>
+     <zorder>tableWidget_3</zorder>
+     <zorder>tableWidget_2</zorder>
+     <zorder>tableWidget_18</zorder>
+     <zorder>tableWidget_19</zorder>
+     <zorder>tableWidget_20</zorder>
+     <zorder>tableWidget_21</zorder>
+     <zorder>tableWidget_22</zorder>
+     <zorder>tableWidget_23</zorder>
+     <zorder>tableWidget_25</zorder>
+     <zorder>label_11</zorder>
+     <zorder>label_12</zorder>
+     <zorder>label_13</zorder>
+     <zorder>label_14</zorder>
+     <zorder>label_15</zorder>
     </widget>
    </widget>
   </widget>
