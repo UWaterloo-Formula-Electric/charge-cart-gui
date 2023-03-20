@@ -8,8 +8,14 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from pyqtgraph import PlotWidget
 
+# add a construct, so it is not a static class
+# we can access the attributes from derived class
 class Ui_MainWindow(object):
+    def __init__(self):
+        super(Ui_MainWindow, self).__init__()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(867, 623)
@@ -38,6 +44,7 @@ class Ui_MainWindow(object):
         self.voltage_label.setObjectName("voltage_label")
         self.plainTextEdit = QtWidgets.QPlainTextEdit(self.tab)
         self.plainTextEdit.setGeometry(QtCore.QRect(170, 420, 431, 78))
+        self.plainTextEdit.setReadOnly(True)
         self.plainTextEdit.setObjectName("plainTextEdit")
         self.textEdit = QtWidgets.QTextEdit(self.tab)
         self.textEdit.setGeometry(QtCore.QRect(190, 310, 104, 21))
@@ -132,6 +139,9 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.frame_3)
         self.pushButton_3.setGeometry(QtCore.QRect(10, 60, 121, 32))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_4 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_4.setGeometry(QtCore.QRect(30, 10, 113, 32))
+        self.pushButton_4.setObjectName("pushButton_4")
         self.frame_2.raise_()
         self.graphWidget_current.raise_()
         self.graphWidget_volt.raise_()
@@ -154,6 +164,7 @@ class Ui_MainWindow(object):
         self.label_8.raise_()
         self.frame.raise_()
         self.frame_3.raise_()
+        self.pushButton_4.raise_()
         self.CellTab.addTab(self.tab, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -545,6 +556,7 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Balancing</p></body></html>"))
         self.pushButton_3.setText(_translate("MainWindow", "Start Balancing"))
+        self.pushButton_4.setText(_translate("MainWindow", "Connect!"))
         self.CellTab.setTabText(self.CellTab.indexOf(self.tab), _translate("MainWindow", "Main"))
         item = self.tableWidget.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "C1"))
@@ -763,14 +775,13 @@ class Ui_MainWindow(object):
         self.actionPaste.setText(_translate("MainWindow", "Paste"))
         self.actionPaste.setStatusTip(_translate("MainWindow", "Paste a file"))
         self.actionPaste.setShortcut(_translate("MainWindow", "Ctrl+V"))
-from pyqtgraph import PlotWidget
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec())

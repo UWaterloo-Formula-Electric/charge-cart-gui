@@ -20,39 +20,50 @@ cell_data = {
 }
 """
 
-# Populate Cell Data dictionary:
-for cell_num in range(NUM_CELLS):
-    cell_data.update({f"cell_{cell_num}": {"voltage": 0, "temp": 0}})
+def port_setup():
+    # Populate Cell Data dictionary:
+    for cell_num in range(NUM_CELLS):
+        cell_data.update({f"cell_{cell_num}": {"voltage": 0, "temp": 0}})
 
-# print(cell_data["cell_0"]["voltage"])
+    # print(cell_data["cell_0"]["voltage"])
 
-# open the port
-ports = serial.tools.list_ports.comports()
-# list of all available ports
-all_ports = []
+    # open the port
+    ports = serial.tools.list_ports.comports()
+    # list of all available ports
+    all_ports = []
+    message = ""
 
-for port, desc, hwid in sorted(ports):
-    # print("{}: {}".format(port, desc))    # Uncomment to see all ports found
-    all_ports.append("{}: {}".format(port, desc))
+    for port, desc, hwid in sorted(ports):
+        # print("{}: {}".format(port, desc))    # Uncomment to see all ports found
+        all_ports.append("{}: {}".format(port, desc))
 
-### connect to the port
-serial_port = ""
-port_found = False
-for p in all_ports:
-    curr = p.lower()
-    if STLINK_NAME.lower() in curr:
-        serial_port = p.split(':')[0]
-        port_found = True
-        print(f"Found STLink on {serial_port}")
+    ### connect to the port
+    serial_port = ""
+    port_found = False
 
-        # Setup Serial Connection
-        ser = Serial(serial_port, BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS, timeout=0)
-        # not too sure what this do
-        sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+    for p in all_ports:
+        curr = p.lower()
+        if STLINK_NAME.lower() in curr:
+            serial_port = p.split(':')[0]
+            port_found = True
+            message  = f"Found STLink on {serial_port}"
+            print(message)
 
-if not port_found:
-    print("STLink not found! Ensure it is plugged in")
-    exit()
+            # Setup Serial Connection
+            ser = Serial(serial_port, BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS,
+                         timeout=0)
+            # Not so sure what this does
+            sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+
+    if not port_found:
+        print("STLink not found! Ensure it is plugged in")
+        # insert a message to the log box: not connected
+
+        # not too sure what exit does here
+        # exit()
+        return "Failed"
+
+    return message
 
 
 ####
@@ -63,6 +74,7 @@ def main():
     ax = fig.add_subplot(111)
 
     for i in range(10):
+        # get battInfo commend
         # input("Press Enter to get battInfo")
         get_battInfo(ser)
         print("Got battInfo", i+1)
@@ -76,6 +88,8 @@ def main():
 
 """
 -----       Serial Parsing Code     -----
+
+
 """
 
 
@@ -90,7 +104,7 @@ def get_battInfo(sio):
 
     if not data:
         print("ERROR: NO DATA RECEIVED FROM BATTINFO CMD")
-        return
+        return "error"
 
     else:
 
@@ -103,15 +117,19 @@ def get_battInfo(sio):
             parsed = line.strip().split("\t")
             if len(parsed) > 1:
                 try:
+                    # data Cell     Voltage     Temp
                     cell_num = int(parsed[0])
                     cell_voltage = parsed[1]
                     cell_temp = parsed[2]
 
+
+                    # 70x3 array
                     '''
                     [[cell_num,cell_voltage, cell_temp], 
                      [cell_num,cell_voltage, cell_temp],
                      [cell_num,cell_voltage, cell_temp]]
                     '''
+
 
                     cell_key = f"cell_{cell_num}"
 
@@ -119,12 +137,20 @@ def get_battInfo(sio):
                     if cell_key in cell_data.keys():
                         cell_data[cell_key]["voltage"] = cell_voltage
                         cell_data[cell_key]["temp"] = cell_temp
+
                 except Exception as e:      # TODO: Remove this once all parsing bugs are fixed
                     print("Got Exception", e)
                     print(parsed)
                     print(cell_data)
 
                 # print(f"{cell_num} {cell_voltage} {cell_temp}")
+
+
+def get_cell_data():
+    return cell_data
+
+def get_port_name():
+    return ports
 
 
 
