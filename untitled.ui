@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1215,10 +1215,10 @@ p, li { white-space: pre-wrap; }
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>550</x>
         <y>40</y>
-        <width>532</width>
-        <height>413</height>
+        <width>181</width>
+        <height>171</height>
        </rect>
       </property>
       <row>
@@ -1311,6 +1311,597 @@ p, li { white-space: pre-wrap; }
         <string>Box5</string>
        </property>
       </column>
+     </widget>
+     <widget class="QTableWidget" name="box2_odd_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>242</width>
+        <height>212</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>60</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Left</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </item>
+      <item row="0" column="2">
+       <property name="text">
+        <string>C14</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </item>
+      <item row="1" column="2">
+       <property name="text">
+        <string>C12</string>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </item>
+      <item row="2" column="2">
+       <property name="text">
+        <string>C10</string>
+       </property>
+      </item>
+      <item row="3" column="0">
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </item>
+      <item row="3" column="2">
+       <property name="text">
+        <string>C8</string>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </item>
+      <item row="4" column="2">
+       <property name="text">
+        <string>C6</string>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </item>
+      <item row="5" column="2">
+       <property name="text">
+        <string>C4</string>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </item>
+      <item row="6" column="2">
+       <property name="text">
+        <string>C2</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTableWidget" name="box2_odd_3">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>260</y>
+        <width>242</width>
+        <height>212</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>60</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Left</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </item>
+      <item row="0" column="2">
+       <property name="text">
+        <string>C14</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </item>
+      <item row="1" column="2">
+       <property name="text">
+        <string>C12</string>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </item>
+      <item row="2" column="2">
+       <property name="text">
+        <string>C10</string>
+       </property>
+      </item>
+      <item row="3" column="0">
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </item>
+      <item row="3" column="2">
+       <property name="text">
+        <string>C8</string>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </item>
+      <item row="4" column="2">
+       <property name="text">
+        <string>C6</string>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </item>
+      <item row="5" column="2">
+       <property name="text">
+        <string>C4</string>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </item>
+      <item row="6" column="2">
+       <property name="text">
+        <string>C2</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTableWidget" name="box2_odd_4">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>30</y>
+        <width>242</width>
+        <height>212</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>60</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Left</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </item>
+      <item row="0" column="2">
+       <property name="text">
+        <string>C14</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </item>
+      <item row="1" column="2">
+       <property name="text">
+        <string>C12</string>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </item>
+      <item row="2" column="2">
+       <property name="text">
+        <string>C10</string>
+       </property>
+      </item>
+      <item row="3" column="0">
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </item>
+      <item row="3" column="2">
+       <property name="text">
+        <string>C8</string>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </item>
+      <item row="4" column="2">
+       <property name="text">
+        <string>C6</string>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </item>
+      <item row="5" column="2">
+       <property name="text">
+        <string>C4</string>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </item>
+      <item row="6" column="2">
+       <property name="text">
+        <string>C2</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTableWidget" name="box2_odd_5">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>260</y>
+        <width>242</width>
+        <height>212</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>60</number>
+      </attribute>
+      <attribute name="horizontalHeaderHighlightSections">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Left</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>C13</string>
+       </property>
+      </item>
+      <item row="0" column="2">
+       <property name="text">
+        <string>C14</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>C11</string>
+       </property>
+      </item>
+      <item row="1" column="2">
+       <property name="text">
+        <string>C12</string>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>C9</string>
+       </property>
+      </item>
+      <item row="2" column="2">
+       <property name="text">
+        <string>C10</string>
+       </property>
+      </item>
+      <item row="3" column="0">
+       <property name="text">
+        <string>C7</string>
+       </property>
+      </item>
+      <item row="3" column="2">
+       <property name="text">
+        <string>C8</string>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>C5</string>
+       </property>
+      </item>
+      <item row="4" column="2">
+       <property name="text">
+        <string>C6</string>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>C3</string>
+       </property>
+      </item>
+      <item row="5" column="2">
+       <property name="text">
+        <string>C4</string>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>C1</string>
+       </property>
+      </item>
+      <item row="6" column="2">
+       <property name="text">
+        <string>C2</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>
