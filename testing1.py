@@ -552,7 +552,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Balancing</p></body></html>"))
-        self.startBalancing_pb.setText(_translate("MainWindow", "Start Balancing"))
+        self.startBalancing_pb.setText(_translate("MainWindow", "Testing"))
         self.connect_pb.setText(_translate("MainWindow", "Connect!"))
         self.CellTab.setTabText(self.CellTab.indexOf(self.tab), _translate("MainWindow", "Main"))
         item = self.box1_even.verticalHeaderItem(0)

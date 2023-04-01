@@ -12,7 +12,7 @@ python3 -m PyQt6.uic.pyuic -o testing1.py -x untitled.ui
 The command will overwrite all the current code so don't touch the file except for adding a constructor
  
 
- # TODO
+# TODO
  1.MiniBatch dictioanry into 5 dictionary doesn't seem to be a good idea
     - maybe use for loop instead like for i in range(5)
 

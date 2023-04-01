@@ -12,6 +12,7 @@ class SerialConnect(object):
     BAUD_RATE = 230400
     STLINK_NAME = "STMicroelectronics STLink Virtual COM Port"
     NUM_CELLS = 70
+
     def __init__(self):
         self.ser = None
         self.cell_data = {}
@@ -60,6 +61,7 @@ class SerialConnect(object):
                 ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS,
                              timeout=0)
                 # Not so sure what this does
+                global sio
                 sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 
         if not port_found:
@@ -152,24 +154,47 @@ class SerialConnect(object):
 
                     # print(f"{cell_num} {cell_voltage} {cell_temp}")
 
+    def getSoC(self):
+        soc = self.sendRequest("balanceCell")
+        return float(soc)
 
-    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
-    def split_BatteryData(self, input_dict, chunk_size=14):
-        res = []
-        new_dict = {}
-        for k, v in input_dict.items():
-            if len(new_dict) < chunk_size:
-                new_dict[k] = v
-            else:
-                res.append(new_dict)
-                new_dict = {k: v}
-        res.append(new_dict)
-        return res
+    def balancePack(self):
+        self.sendRequest("balanceCell")
+
+    # sending Max current request
+    def setCurrent(self):
+        self.sendRequest("maxChargeCurrent")
+
+    # Is this the right command?
+    def getCurrent(self):
+        data = self.sendRequest("printHVMeasurements")
+        return data
+
+    def getVoltage(self):
+        data = self.sendRequest("printHVMeasurements")
+        return data
+
+
+
+    def startCharging(self):
+        self.sendRequest("startCharge")
+
+
+    def StopCharging(self):
+        self.sendRequest("stopCharge")
+
+
+    def sendRequest(self, command):
+        command = command + "\n"
+        sio.write(command.encode())
+        # sio.flush()
+        time.sleep(0.2)  # Wait for response
+        raw_data = sio.read(sio.inWaiting())
+        return raw_data.decode()
+
 
 
     def get_cell_data(self):
-        # return a list of battery dictionary each entry has 14 cells
-        # return self.split_BatteryData(self.cell_data)
         return self.cell_data
 
     def get_port_name(self):
