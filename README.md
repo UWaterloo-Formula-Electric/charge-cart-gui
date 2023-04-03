@@ -8,11 +8,15 @@ serial_parse contends all the necessnary functions for communicating with the bo
 
 charge_cart_GUI.ui is the file from Qt desinger
 
+charge_cart_GUI.py is the generated python file from Qt designer
+
 
 # Warning
 Following is the command to get python file from .ui file
 python3 -m PyQt6.uic.pyuic -o charge_cart_GUI.py -x charge_cart_GUI.ui
-The command will overwrite all the current code so don't touch the file except for adding a constructor
+
+The command will overwrite all the current code in charge_cart_GUI.py 
+so don't touch the file except for adding a constructor and git rid of generated "main" function
 OR you know what you are doing
  
 
