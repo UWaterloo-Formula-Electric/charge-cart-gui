@@ -1,22 +1,22 @@
 from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
-from serial_parse_test import SerialConnect
-from testing1 import Ui_MainWindow
+from serial_parse import SerialConnect
+from charge_cart_GUI import Ui_MainWindow
 import sys
 from numpy import random
 from time import sleep
 
 
 # python3 -m PyQt6.uic.pyuic -o testing.py -x untitled.ui
-# python3 -m PyQt6.uic.pyuic -o cart_testing.py -x untitled.ui
+# python3 -m PyQt6.uic.pyuic -o charge_cart_GUI.py -x charge_cart_GUI.ui
 
 # How do I have an SerialConnect object shared across Worker class and myWindow class?
 # In Worker: connector = SerialConnect()
 # In myWindow: message = self.port.port_setup()
 # Global object I guess?
 
-
+# Can create different workers with different signatures
 class Worker(QObject):
     finished = pyqtSignal()
     progress1 = pyqtSignal(int)
@@ -27,7 +27,8 @@ class Worker(QObject):
     currentProgress = pyqtSignal(float)
     voltProgress = pyqtSignal(float)
 
-    connector = SerialConnect()
+    def __init__(self, connector):
+        self.connector = connector
 
     def run(self):
         # update 5 times
@@ -83,7 +84,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphSetup()
 
 
-        self.port = SerialConnect()
+        self.sio = SerialConnect()
 
         # force to show the main page first
         self.CellTab.setCurrentIndex(0)
@@ -92,6 +93,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # charging state
         self.state = "Charging"
         self.progressVal = 0
+        self.setCurrent_input.setText("5")
 
         # Make sure this is false
         self.isConntecd = True
@@ -100,7 +102,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.connect_pb.clicked.connect(self.updateData)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
-        self.startCharging_pb.clicked.connect(self.charging)
+        self.startCharging_pb.clicked.connect(self.chargingStateMachine)
 
         # maybe I should add another button for start?
         # self.connect_pb.clicked.connect(self.updateBatteryInfo())
@@ -126,7 +128,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # Create QThread and Worker objects
         self.thread = QThread()
         # Create a worker object
-        self.worker = Worker()
+        self.connector = SerialConnect()
+        self.worker = Worker(self.connector)
+
 
         # Move worker to the thread
         self.worker.moveToThread(self.thread)
@@ -162,7 +166,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def connectPort(self):
         self.logging_texbox.appendPlainText("connecting to STLink...")
         # wait until debug serial connection
-        message = self.port.port_setup()
+        message = self.connector.port_setup()
 
 
         if message == "Failed":
@@ -193,17 +197,54 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
 
 
-    def charging(self):
+    def chargingStateMachine(self):
         if self.state == "Pause":
-            self.logging_texbox.appendPlainText("Charging...")
+            self.log("Charging...")
             self.state = "Charging"
-            self.port.startCharging()
-        else:
-            self.logging_texbox.appendPlainText("Stop Charging...")
-            self.state = "Pause"
-            self.port.StopCharging()
 
-        self.startCharging_pb.setText(self.state)
+            # move this to serial_parse class
+            self.sio.sendRequest("forceChargeCommand 1")
+            self.log("forceChargeCommand 1")
+
+            canStartCharger_Message = self.sio.sendRequest("canStartCharger")
+            self.log(canStartCharger_Message)
+
+            message = self.sio.sendRequest("hvToggle")
+            self.log(message)
+
+
+            currentVal = self.setCurrent_input.toPlainText()
+
+            if currentVal.isnumeric():
+                currentVal = f"current {currentVal}"
+                self.sio.startCharging(currentVal)
+
+                self.startCharging_pb.setText(self.state)
+            else:
+                self.log(f"invalid input, current passed is not a number")
+
+        else:
+            self.log("already charging")
+
+
+
+
+    def StopChargingStateMachine(self):
+        if self.state == "charging":
+            self.log("Stop Charging...")
+            self.state = "Pause"
+            message = self.sio.StopCharging()
+
+            if message == "charging done":
+                self.sio.sendRequest("hvToggle")
+
+            self.startCharging_pb.setText(self.state)
+
+        else:
+            self.log("not charging")
+
+
+
 
 
     # Testing: only for updating
@@ -229,6 +270,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # print(virtualdict)
         return virtualdict
+
 
     # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
     def split_BatteryData(self, input_dict, chunk_size=14):

@@ -13,10 +13,12 @@ class SerialConnect(object):
     STLINK_NAME = "STMicroelectronics STLink Virtual COM Port"
     NUM_CELLS = 70
 
+
     def __init__(self):
         self.ser = None
         self.cell_data = {}
         self.all_ports = []
+        self.sio = None
 
     # Cell Data Dictionary:
     """
@@ -61,8 +63,7 @@ class SerialConnect(object):
                 ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS,
                              timeout=0)
                 # Not so sure what this does
-                global sio
-                sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+                self.sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 
         if not port_found:
             print("STLink not found! Ensure it is plugged in")
@@ -176,22 +177,22 @@ class SerialConnect(object):
 
 
 
-    def startCharging(self):
-        self.sendRequest("startCharge")
+    def startCharging(self, current):
+        self.sendRequest(current)
 
 
     def StopCharging(self):
-        self.sendRequest("stopCharge")
+        message = self.sendRequest("stopCharge")
+        return message
 
 
     def sendRequest(self, command):
         command = command + "\n"
-        sio.write(command.encode())
+        self.sio.write(command.encode())
         # sio.flush()
         time.sleep(0.2)  # Wait for response
-        raw_data = sio.read(sio.inWaiting())
+        raw_data = self.sio.read(self.sio.inWaiting())
         return raw_data.decode()
-
 
 
     def get_cell_data(self):
