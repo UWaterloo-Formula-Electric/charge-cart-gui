@@ -28,6 +28,7 @@ class Worker(QObject):
     voltProgress = pyqtSignal(float)
 
     def __init__(self, connector):
+        super(Worker, self).__init__()
         self.connector = connector
 
     def run(self):
@@ -47,12 +48,12 @@ class Worker(QObject):
         self.batteryInfo.emit([{"battery": 3}])
 
 
-        # if self.connector.port_setup() == True:
-        #     self.connector.execute()
-        #     self.batteryInfo.emit(self.connector.get_battInfo())
-        #
-        # else:
-        #     self.log.emit("connection failed!")
+        if self.connector.port_setup() == True:
+            self.connector.execute()
+            self.batteryInfo.emit(self.connector.get_battInfo())
+        
+        else:
+            self.log.emit("connection failed!")
 
         self.finished.emit()
 
@@ -85,6 +86,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
 
         self.sio = SerialConnect()
+        self.sio.port_setup()
 
         # force to show the main page first
         self.CellTab.setCurrentIndex(0)
@@ -100,12 +102,12 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # connect all the buttons
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
-        self.connect_pb.clicked.connect(self.updateData)
+        # self.connect_pb.clicked.connect(self.updateData)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
 
         # maybe I should add another button for start?
-        # self.connect_pb.clicked.connect(self.updateBatteryInfo())
+        self.connect_pb.clicked.connect(self.updateBatteryInfo)
 
 
         self.BoxesList = []
@@ -259,7 +261,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             virtual70Cell.append(virtualdict)
 
 
-        print(virtual70Cell)
+        # print(virtual70Cell)
         return virtual70Cell
 
 
@@ -364,13 +366,25 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         Num_Cell_Per_Batch = 13
         Num_Batch = 5
         cellIndex = 1
-        virtual70Cells = self.virtualBatteryInfo_Splited()
+        # virtual70Cells = self.virtualBatteryInfo_Splited()
+
+        virtual70Cells = self.sio.get_battInfo()
+
+        if virtual70Cells == "error":
+            print("ERROR received from getBattInfo")
+        
+        print("============================================================")
         print(virtual70Cells)
+        print("============================================================")
+
+        # print(virtual70Cells)
         self.update_voltage(100)
 
         # iterate through 10 tables (5 pairs)
         for BoxesIndex in range(0,Num_Batch*2,2):
             curCellBatch = virtual70Cells[batch_Index]
+
+            print(f"curCellBatch = '{curCellBatch}'")
 
             self.log(curCellBatch)
 

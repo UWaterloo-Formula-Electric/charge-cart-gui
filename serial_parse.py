@@ -60,10 +60,10 @@ class SerialConnect(object):
                 print(message)
 
                 # Setup Serial Connection
-                ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS,
+                self.ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE, bytesize=serial.EIGHTBITS,
                              timeout=0)
                 # Not so sure what this does
-                self.sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+                self.sio = io.TextIOWrapper(io.BufferedRWPair(self.ser, self.ser))
 
         if not port_found:
             print("STLink not found! Ensure it is plugged in")
@@ -104,21 +104,24 @@ class SerialConnect(object):
 
 
     # Get battInfo and parse important information
-    def get_battInfo(self, sio):
+    def get_battInfo(self):
         # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-        sio.write("battInfo\n".encode())
+        self.ser.write("battInfo\n".encode())
         # sio.flush()
         time.sleep(0.2)  # Wait for response
-        raw_data = sio.read(sio.inWaiting())
+        raw_data = self.ser.read(self.ser.inWaiting())
         data = raw_data.decode()
 
         if not data:
             print("ERROR: NO DATA RECEIVED FROM BATTINFO CMD")
             return "error"
+        
 
         else:
 
-            # print(data)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print(data)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             ###     PARSE DATA FROM BATTINFO    ###
             data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")[1].split("bmu >")[0]
@@ -154,6 +157,8 @@ class SerialConnect(object):
                         print(self.cell_data)
 
                     # print(f"{cell_num} {cell_voltage} {cell_temp}")
+            
+            return data
 
     def getSoC(self):
         soc = self.sendRequest("balanceCell")
