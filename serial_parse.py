@@ -180,8 +180,6 @@ class SerialConnect(object):
         data = self.sendRequest("printHVMeasurements")
         return data
 
-
-
     def startCharging(self, current):
         self.sendRequest(current)
 

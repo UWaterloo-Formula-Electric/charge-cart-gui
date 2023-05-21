@@ -5,76 +5,17 @@ from serial_parse import SerialConnect
 from charge_cart_GUI import Ui_MainWindow
 import sys
 from numpy import random
+from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
 from time import sleep
 
 
+# Command to export file
 # python3 -m PyQt6.uic.pyuic -o testing.py -x untitled.ui
 # python3 -m PyQt6.uic.pyuic -o charge_cart_GUI.py -x charge_cart_GUI.ui
 
-# How do I have an SerialConnect object shared across Worker class and myWindow class?
-# In Worker: connector = SerialConnect()
-# In myWindow: message = self.port.port_setup()
-# Global object I guess?
-
-# Can create different workers with different signatures
-class Worker(QObject):
-    finished = pyqtSignal()
-    progress1 = pyqtSignal(int)
-
-    log = pyqtSignal(str)
-    batteryInfo = pyqtSignal(list)
-    SoCprogress = pyqtSignal(float)
-    currentProgress = pyqtSignal(float)
-    voltProgress = pyqtSignal(float)
-
-    def __init__(self, connector):
-        super(Worker, self).__init__()
-        self.connector = connector
-
-    def run(self):
-        # update 5 times
-        while True:
-            self.updateBatteryInfo()
-            # self.update_SoC()
-            # self.update_Volt()
-            # self.update_Current()
-            sleep(0.1)
-
-
-    def updateBatteryInfo(self):
-        # connect to the port
-        # emit a list of batteries
-        # self.batteryInfo.emit([{"battery": 3}])
-        self.batteryInfo.emit([{"battery": 3}])
-
-
-        if self.connector.port_setup() == True:
-            self.connector.execute()
-            self.batteryInfo.emit(self.connector.get_battInfo())
-        
-        else:
-            self.log.emit("connection failed!")
-
-        self.finished.emit()
-
-
-    def update_SoC(self):
-        # trigger functions and pass in values
-        # whenever is passed in emit will be passed in whatever we connect with (update_SoC)
-        soc = float(self.connector.getSoC())
-        self.SoCprogress.emit(soc)
-        self.finished.emit()
-
-    def update_Current(self):
-        current = float(self.connector.getCurrent())
-        self.currentProgress.emit(current)
-        self.finished.emit()
-
-    def update_Volt(self):
-        voltage = self.connector.getVoltage()
-        self.voltProgress.emit(voltage)
-        self.finished.emit()
-
+# 1: dev_mod/ 0: test_mode
+global env_dev
+env_dev = 0
 
 
 
@@ -130,34 +71,33 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # Create QThread and Worker objects
         self.thread = QThread()
         # Create a worker object
-        self.connector = SerialConnect()
-        self.worker = Worker(self.connector)
+        # self.connector = SerialConnect()
+        self.battWorker = Worker_UpdateBatteryInfo(self.sio)
+        self.stateWorker = Worker_UpdateState(self.sio)
 
 
         # Move worker to the thread
-        self.worker.moveToThread(self.thread)
+        self.battWorker.moveToThread(self.thread)
 
         # Connect signals and slots
-        self.thread.started.connect(self.worker.run)
+        self.thread.started.connect(self.battWorker.run)
 
-        self.worker.finished.connect(self.thread.quit)
+        self.battWorker.finished.connect(self.thread.quit)
 
-        self.worker.finished.connect(self.worker.deleteLater)
+        self.battWorker.finished.connect(self.battWorker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
 
         # self.worker.progress1.connect(self.updateBatteryInfo)
-        self.worker.batteryInfo.connect(self.updateBatteryInfo)
-        self.worker.log.connect(self.updateLog)
+        self.battWorker.batteryInfo.connect(self.updateBatteryInfo)
+        self.battWorker.log.connect(self.updateLog)
 
 
-        self.worker.SoCprogress.connect(self.update_SoC)
-        self.worker.currentProgress.connect(self.update_Current)
-        self.worker.voltProgress.connect(self.update_voltage)
+        self.stateWorker.SoCprogress.connect(self.update_SoC)
+        self.stateWorker.currentProgress.connect(self.update_Current)
+        self.stateWorker.voltProgress.connect(self.update_voltage)
 
         # Start thread
         self.thread.start()
-
-
 
 
 
@@ -168,13 +108,13 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def connectPort(self):
         self.logging_texbox.appendPlainText("connecting to STLink...")
         # wait until debug serial connection
-        message = self.connector.port_setup()
+        port_isFound = self.sio.port_setup()
 
 
-        if message == "Failed":
-            self.logging_texbox.appendPlainText(message)
+        if port_isFound == False:
+            self.logging_texbox.appendPlainText("port not found :(")
         else:
-            self.logging_texbox.appendPlainText(message)
+            self.logging_texbox.appendPlainText("port found :)")
             self.logging_texbox.appendPlainText("STLink connected")
             self.isConntecd = True
 
@@ -188,17 +128,13 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.setLabel('left', 'Volt')
         self.graphWidget_volt.addLegend()
 
-    # Testing block
+
     def startBalancing(self):
+        # TODO: add logic
         self.logging_texbox.appendPlainText("start balancing")
-        unsplited_data = self.virtualBatteryInfo_UnSplited()
-
-        splited_data = self.split_BatteryData(unsplited_data, 14)
-
-        correct_formed = self.virtualBatteryInfo_Splited()
 
 
-
+    # TODO: See the document charging procedure
     def chargingStateMachine(self):
         if self.state == "Pause":
             self.log("Charging...")
@@ -228,9 +164,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         else:
             self.log("already charging")
 
-
-
-
+    # TODO: See the document charging procedure
     def StopChargingStateMachine(self):
         if self.state == "charging":
             self.log("Stop Charging...")
@@ -244,34 +178,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         else:
             self.log("not charging")
-
-
-
-
-
-    # Testing: only for updating
-    def virtualBatteryInfo_Splited(self):
-        virtual70Cell = []
-
-        for batch in range(0, 5):
-            virtualdict = {}
-            for cell in range(1,15):
-                virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-            virtual70Cell.append(virtualdict)
-
-
-        # print(virtual70Cell)
-        return virtual70Cell
-
-
-    def virtualBatteryInfo_UnSplited(self):
-        virtualdict = {}
-        for cell in range(1, 71):
-            virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-        # print(virtualdict)
-        return virtualdict
 
 
     # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
@@ -288,19 +194,19 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         return res
 
 
-    def getMeanMaxMinOfVoltage(self, batteryInfo):
+    def updateMeanMaxMinOfBatt(self, batteryInfo):
         # Testing
-        virtual70Cells = self.virtualBatteryInfo_UnSplited()
+        # batteryInfo = self.virtualBatteryInfo_UnSplited()
 
         totalVoltage = 0
-        maxVol = virtual70Cells[f"cell_1"]["voltage"]
-        minVol = virtual70Cells[f"cell_1"]["voltage"]
-        maxTemp = virtual70Cells[f"cell_1"]["temp"]
-        minTemp = virtual70Cells[f"cell_1"]["temp"]
+        maxVol = batteryInfo[f"cell_1"]["voltage"]
+        minVol = batteryInfo[f"cell_1"]["voltage"]
+        maxTemp = batteryInfo[f"cell_1"]["temp"]
+        minTemp = batteryInfo[f"cell_1"]["temp"]
 
         for i in range(70):
-            singleVol = virtual70Cells[f"cell_{i}"]["voltage"]
-            singleTemp = virtual70Cells[f"cell_{i}"]["temp"]
+            singleVol = batteryInfo[f"cell_{i}"]["voltage"]
+            singleTemp = batteryInfo[f"cell_{i}"]["temp"]
             totalVoltage += singleVol
             if singleVol > maxVol:
                 maxVol = singleVol
@@ -313,8 +219,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 minTemp = singleTemp
 
 
-
-
         mean = totalVoltage/70
 
         self.maxVolt_textbox.setText(str(maxVol))
@@ -324,11 +228,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.rawVolt_textbox.setText(str(mean))
 
 
-
-
     def updateBatteryInfo(self, batteryInfo):
-        # batteryInfo
-        '''
+        # batteryInfo example
+        """
         batteryInfo = [
         {
             "cell_1": {
@@ -355,19 +257,17 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         }
         ]
 
-        '''
+        """
 
 
-
-
-        # self.logging_texbox.appendPlainText("updating battery Info")
+        self.logging_texbox.appendPlainText("updating battery Info")
 
         batch_Index = 0
         Num_Cell_Per_Batch = 13
         Num_Batch = 5
         cellIndex = 1
-        # virtual70Cells = self.virtualBatteryInfo_Splited()
 
+        # a dictionary
         virtual70Cells = self.sio.get_battInfo()
 
         if virtual70Cells == "error":
@@ -377,8 +277,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         print(virtual70Cells)
         print("============================================================")
 
-        # print(virtual70Cells)
-        self.update_voltage(100)
+        # Update all voltage, current textbox
+        self.update_voltage(self.sio.getVoltage())
+        self.update_Current(self.sio.getCurrent())
+        self.updateMeanMaxMinOfBatt(batteryInfo)
+
 
         # iterate through 10 tables (5 pairs)
         for BoxesIndex in range(0,Num_Batch*2,2):
@@ -419,26 +322,46 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
     def update_Current(self, current):
         self.packCurrent_textbox.setValue(str(current))
-        self.graphWidget_current.append(random.randint(100))
+        self.graphWidget_current.append(str(current))
         self.logging_texbox.appendPlainText("updating current")
 
-
     def update_voltage(self, voltage):
-        # self.graphWidget_volt.append(random.randint(100))
+        self.rawVolt_textbox.setValue(str(voltage))
+        self.graphWidget_volt.append(str(voltage))
         self.logging_texbox.appendPlainText("updating voltage")
 
-    def update_V_Graph(self):
-        # self.graphWidget_volt.append(random.randint(0,100))
-        pass
 
     def updateLog(self, log):
         self.logging_texbox.appendPlainText(log)
 
-
-
-
     def log(self, message):
         self.logging_texbox.appendPlainText(str(message))
+
+
+
+    # Testing only: create a virtual data
+    def virtualBatteryInfo_Splited(self):
+        virtual70Cell = []
+
+        for batch in range(0, 5):
+            virtualdict = {}
+            for cell in range(1,15):
+                virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
+
+            virtual70Cell.append(virtualdict)
+
+
+        # print(virtual70Cell)
+        return virtual70Cell
+
+
+    def virtualBatteryInfo_UnSplited(self):
+        virtualdict = {}
+        for cell in range(1, 71):
+            virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
+
+        # print(virtualdict)
+        return virtualdict
 
 
 
