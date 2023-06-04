@@ -9,8 +9,8 @@ from time import sleep
 
 
 # 1: dev_mod/ 0: test_mode
-global env_dev
-env_dev = 0
+global isConnected
+isConnected = False
 
 
 class Worker_UpdateBatteryInfo(QObject):
@@ -32,14 +32,16 @@ class Worker_UpdateBatteryInfo(QObject):
     def run(self):
         while True:
             self.updateBatteryInfo()
-            sleep(0.1)
+            # update every 1 second
+            sleep(1)
 
     def updateBatteryInfo(self):
+        # In main class
         # connect to the port
         # emit a list of batteries
-        # self.batteryInfo.emit([{"battery": 3}])
 
         if self.connector.port_setup() == True:
+            isConnected = True
             self.connector.execute()
             self.batteryInfo.emit(self.connector.get_battInfo())
 
@@ -47,8 +49,8 @@ class Worker_UpdateBatteryInfo(QObject):
             self.log.emit("connection failed!")
 
         # environment toggle
-        if (env_dev == 0):
-            self.batteryInfo.emit([{"battery": 3}])
+        if (isConnected):
+            self.batteryInfo.emit({})
 
         self.finished.emit()
 
@@ -56,7 +58,7 @@ class Worker_UpdateBatteryInfo(QObject):
 class Worker_UpdateState(QObject):
     """
         Update SoC
-        Uddate current line graph
+        Update current line graph
         Update voltage line graph
     """
 

@@ -25,7 +25,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setupUi(MainWindow)
         self.graphSetup()
 
-
         self.sio = SerialConnect()
         self.sio.port_setup()
 
@@ -38,17 +37,20 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.progressVal = 0
         self.setCurrent_input.setText("5")
 
-        # Make sure this is false
-        self.isConntecd = True
+        # Make sure this is false when not connect
+        self.isConnected = False
 
         # connect all the buttons
-        self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         # self.connect_pb.clicked.connect(self.updateData)
+        # self.connect_pb.clicked.connect(self.connectPort)
+        self.connect_pb.clicked.connect(self.updateBatteryInfo)
+
+
+        self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
 
-        # maybe I should add another button for start?
-        self.connect_pb.clicked.connect(self.updateBatteryInfo)
+
 
 
         self.BoxesList = []
@@ -116,7 +118,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         else:
             self.logging_texbox.appendPlainText("port found :)")
             self.logging_texbox.appendPlainText("STLink connected")
-            self.isConntecd = True
+            self.isConnected = True
+            self.updateData()
 
 
     def graphSetup(self):
@@ -179,21 +182,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         else:
             self.log("not charging")
 
-
-    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
-    def split_BatteryData(self, input_dict, chunk_size=14):
-        res = []
-        new_dict = {}
-        for k, v in input_dict.items():
-            if len(new_dict) < chunk_size:
-                new_dict[k] = v
-            else:
-                res.append(new_dict)
-                new_dict = {k: v}
-        res.append(new_dict)
-        return res
-
-
     def updateMeanMaxMinOfBatt(self, batteryInfo):
         # Testing
         # batteryInfo = self.virtualBatteryInfo_UnSplited()
@@ -229,75 +217,51 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
 
     def updateBatteryInfo(self, batteryInfo):
-        # batteryInfo example
-        """
-        batteryInfo = [
-        {
-            "cell_1": {
-                "voltage": 36,
-                "temp": 25,
-            },
-
-            "cell_2": {
-                "voltage": 36,
-                "temp": 25,
-            }
-        },
-
-        {
-            "cell_3": {
-                "voltage": 3.6,
-                "temp": 25,
-            },
-
-            "cell_4": {
-                "voltage": 3.6,
-                "temp": 25,
-            }
-        }
-        ]
-
-        """
-
-
+        # BatteryInfo argument: from worker class emit function (unsplitted)
         self.logging_texbox.appendPlainText("updating battery Info")
+
+        # a dictionary
+        if batteryInfo == {}:
+            unsplittedBattInfo = self.sio.get_battInfo()
+
+        if unsplittedBattInfo == "error":
+            print("ERROR received from getBattInfo")
+        
+        print("============================================================")
+        print("Unsplitted Battery Data: ")
+        print(unsplittedBattInfo)
+        print("============================================================")
+
+        batteryInfo = self.split_BatteryData(unsplittedBattInfo)
+        splittedBattInfo = self.split_BatteryData(unsplittedBattInfo)
+        print("Splitted Battery Data: ")
+        print(splittedBattInfo)
+        print("============================================================")
+
+
+        # Update all voltage, current textbox
+        # self.update_voltage(self.sio.getVoltage())
+        # self.update_Current(self.sio.getCurrent())
+        # self.updateMeanMaxMinOfBatt(batteryInfo)
 
         batch_Index = 0
         Num_Cell_Per_Batch = 13
         Num_Batch = 5
         cellIndex = 1
 
-        # a dictionary
-        virtual70Cells = self.sio.get_battInfo()
-
-        if virtual70Cells == "error":
-            print("ERROR received from getBattInfo")
-        
-        print("============================================================")
-        print(virtual70Cells)
-        print("============================================================")
-
-        # Update all voltage, current textbox
-        self.update_voltage(self.sio.getVoltage())
-        self.update_Current(self.sio.getCurrent())
-        self.updateMeanMaxMinOfBatt(batteryInfo)
-
-
         # iterate through 10 tables (5 pairs)
         for BoxesIndex in range(0,Num_Batch*2,2):
-            curCellBatch = virtual70Cells[batch_Index]
+            curCellBatch = splittedBattInfo[batch_Index]
 
-            print(f"curCellBatch = '{curCellBatch}'")
-
-            self.log(curCellBatch)
-
+            # print(f"curCellBatch = '{curCellBatch}'")
+            # self.log(curCellBatch)
 
             lowerBound = cellIndex
             rowIndex = 0
 
-            print("From", cellIndex)
-            print("To", lowerBound+Num_Cell_Per_Batch)
-            print("CurrentCell", cellIndex)
+            # print("From", cellIndex)
+            # print("To", lowerBound+Num_Cell_Per_Batch)
+            # print("CurrentCell", cellIndex)
 
             # iterate over 7 cells in a batch / two tables
             for cellIndex in range(cellIndex, lowerBound+Num_Cell_Per_Batch, 2):
@@ -305,15 +269,15 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 odd = str(curCellBatch[f"cell_{cellIndex}"]["voltage"])
                 even = str(curCellBatch[f"cell_{cellIndex+1}"]["voltage"])
 
-                print(cellIndex)
+                # print(cellIndex)
                 self.BoxesList[BoxesIndex].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd))
                 self.BoxesList[BoxesIndex+1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even))
 
-                rowIndex+=1
+                rowIndex += 1
 
-            batch_Index+=1
+            batch_Index += 1
             cellIndex = lowerBound+Num_Cell_Per_Batch
-            cellIndex+=1
+            cellIndex += 1
 
 
     def update_SoC(self, percent):
@@ -330,7 +294,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.append(str(voltage))
         self.logging_texbox.appendPlainText("updating voltage")
 
-
     def updateLog(self, log):
         self.logging_texbox.appendPlainText(log)
 
@@ -339,7 +302,10 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
 
 
+
     # Testing only: create a virtual data
+    # Also see document/CommandOutput example
+    # ---------------------------------------------------
     def virtualBatteryInfo_Splited(self):
         virtual70Cell = []
 
@@ -360,8 +326,24 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         for cell in range(1, 71):
             virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
 
-        # print(virtualdict)
+        print(virtualdict)
         return virtualdict
+
+
+    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
+    # Allows to split a dictionary into chunks of equal size (list).
+    def split_BatteryData(self, input_dict, chunk_size=14):
+        res = []
+        new_dict = {}
+        for k, v in input_dict.items():
+            if len(new_dict) < chunk_size:
+                new_dict[k] = v
+            else:
+                res.append(new_dict)
+                new_dict = {k: v}
+        res.append(new_dict)
+        return res
+    # ---------------------------------------------------
 
 
 
