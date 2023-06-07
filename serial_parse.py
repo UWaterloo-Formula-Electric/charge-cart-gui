@@ -128,7 +128,7 @@ class SerialConnect(object):
             # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             ###     PARSE DATA FROM BATTINFO    ###
-            data = data.split("Index   Cell Voltage(V) Temp Channel(degC)")[1]
+            data = data.split("Index   Cell Voltage(V) Temp Channel(degC)")[1].split("<bmu")[0]
             for line in data.split('\n'):
                 parsed = re.split(r'     ', line.rstrip('     '))
                 if len(parsed) > 1:

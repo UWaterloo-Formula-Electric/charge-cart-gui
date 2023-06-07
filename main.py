@@ -42,8 +42,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # connect all the buttons
         # self.connect_pb.clicked.connect(self.updateData)
-        # self.connect_pb.clicked.connect(self.connectPort)
-        self.connect_pb.clicked.connect(self.updateBatteryInfo)
+        self.connect_pb.clicked.connect(self.connectPort)
+        # self.connect_pb.clicked.connect(self.updateBatteryInfo)
 
 
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
