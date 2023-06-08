@@ -363,31 +363,39 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # self.logging_texbox.appendPlainText("updating battery Info")
 
         batch_Index = 0
-        Num_Cell_Per_Batch = 13
+        Num_Cell_Per_Batch = 7
         Num_Batch = 5
         cellIndex = 1
         # virtual70Cells = self.virtualBatteryInfo_Splited()
 
         virtual70Cells = self.sio.get_battInfo()
 
+        cell_data = virtual70Cells.strip().split("\r\n")
+
         if virtual70Cells == "error":
             print("ERROR received from getBattInfo")
-        
-        print("============================================================")
-        print(virtual70Cells)
-        print("============================================================")
 
         # print(virtual70Cells)
         self.update_voltage(100)
 
+        for BoxesIndex in range(Num_Batch):
+            for rowIndex in range(0, Num_Cell_Per_Batch):
+                even_data = cell_data[ (BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) ]
+                odd_data = cell_data[ (BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1 ]
+
+                even_val = even_data.split("\t")[1]
+                odd_val = odd_data.split("\t")[1]
+
+                self.BoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
+                self.BoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+
         # iterate through 10 tables (5 pairs)
-        for BoxesIndex in range(0,Num_Batch*2,2):
+        '''for BoxesIndex in range(0,Num_Batch*2,2):
             curCellBatch = virtual70Cells[batch_Index]
 
             print(f"curCellBatch = '{curCellBatch}'")
 
             self.log(curCellBatch)
-
 
             lowerBound = cellIndex
             rowIndex = 0
@@ -410,7 +418,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
             batch_Index+=1
             cellIndex = lowerBound+Num_Cell_Per_Batch
-            cellIndex+=1
+            cellIndex+=1'''
 
 
     def update_SoC(self, percent):

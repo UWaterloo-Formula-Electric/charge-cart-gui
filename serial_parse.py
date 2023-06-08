@@ -53,7 +53,8 @@ class SerialConnect(object):
 
         for p in self.all_ports:
             curr = p.lower()
-            if self.STLINK_NAME.lower() in curr:
+            # Always pass for now, add dropdown in GUI for selecting COM port later
+            if True: #or self.STLINK_NAME.lower() in curr:
                 serial_port = p.split(':')[0]
                 port_found = True
                 message  = f"Found STLink on {serial_port}"
