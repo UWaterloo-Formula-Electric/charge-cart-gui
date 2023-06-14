@@ -122,6 +122,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.logging_texbox.appendPlainText("port found :)")
             self.logging_texbox.appendPlainText("STLink connected")
             self.isConnected = True
+            # start populating data
             self.updateData()
 
 
