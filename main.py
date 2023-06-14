@@ -8,11 +8,6 @@ from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
 from datetime import datetime
 
 
-# 1: dev_mod/ 0: test_mode
-global env_dev
-env_dev = 0
-
-
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def  __init__(self):
         super(MyWindow, self).__init__()
@@ -136,10 +131,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.addLegend()
 
 
+    # TODO: Add logic
     def startBalancing(self):
-        # TODO: add logic
         self.logging_texbox.appendPlainText("start balancing")
-
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
@@ -253,7 +247,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
                 self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
 
-        self.getTimeStamp()
+        self.logTimeStamp()
 
 
 
@@ -277,7 +271,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def log(self, message):
         self.logging_texbox.appendPlainText(str(message))
 
-    def getTimeStamp(self):
+    def logTimeStamp(self):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         self.log("Timestamp-" + current_time)
