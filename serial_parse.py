@@ -17,6 +17,7 @@ class SerialConnect(object):
         self.all_ports = []
         self.sio = None
         self.isTesting = True
+        self.isConnected = False
 
     def port_setup(self):
         # Return bool True/False
@@ -47,6 +48,7 @@ class SerialConnect(object):
                 serial_port = p.split(':')[0]
                 port_found = True
                 message = f"Found STLink on {serial_port}"
+                self.isConnected=True
                 print(message)
 
                 # Setup Serial Connection
@@ -89,6 +91,9 @@ class SerialConnect(object):
     """
 
     # Get battInfo and parse important information
+    def getConnectionStatus(self):
+        return self.isConnected
+
     def get_battInfo(self):
         # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
         self.ser.write("battInfo\n".encode())

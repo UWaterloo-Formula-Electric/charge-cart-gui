@@ -2,11 +2,6 @@ from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from time import sleep
 
 
-# 1: dev_mod/ 0: test_mode
-global isConnected
-isConnected = False
-
-
 class Worker_UpdateBatteryInfo(QObject):
     """
         Update only battery Info
@@ -34,17 +29,15 @@ class Worker_UpdateBatteryInfo(QObject):
         # connect to the port
         # emit a list of batteries
 
-        if self.connector.port_setup() == True:
-            isConnected = True
-            self.connector.execute()
+        # TODO: maybe not keep connecting this
+        # if self.connector.port_setup():
+        if self.connector.getConnectionStatus:
+            # self.connector.execute()
             self.batteryInfo.emit(self.connector.get_battInfo())
 
         else:
             self.log.emit("connection failed!")
 
-        # environment toggle
-        if (isConnected):
-            self.batteryInfo.emit({})
 
         self.finished.emit()
 

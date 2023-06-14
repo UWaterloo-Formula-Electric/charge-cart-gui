@@ -117,7 +117,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.logging_texbox.appendPlainText("port found :)")
             self.logging_texbox.appendPlainText("STLink connected")
             self.isConnected = True
-            # start populating data
+            # start populating data (workers)
             self.updateData()
 
 
@@ -129,7 +129,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.setBackground('w')
         self.graphWidget_volt.setLabel('left', 'Volt')
         self.graphWidget_volt.addLegend()
-
 
     # TODO: Add logic
     def startBalancing(self):
