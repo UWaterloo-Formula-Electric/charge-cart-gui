@@ -11,12 +11,7 @@ from time import sleep
 # python3 -m PyQt6.uic.pyuic -o testing.py -x untitled.ui
 # python3 -m PyQt6.uic.pyuic -o charge_cart_GUI.py -x charge_cart_GUI.ui
 
-# How do I have an SerialConnect object shared across Worker class and myWindow class?
-# In Worker: connector = SerialConnect()
-# In myWindow: message = self.port.port_setup()
-# Global object I guess?
 
-# Can create different workers with different signatures
 class Worker(QObject):
     finished = pyqtSignal()
     progress1 = pyqtSignal(int)
@@ -170,7 +165,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # wait until debug serial connection
         message = self.connector.port_setup()
 
-
         if message == "Failed":
             self.logging_texbox.appendPlainText(message)
         else:
@@ -192,11 +186,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def startBalancing(self):
         self.logging_texbox.appendPlainText("start balancing")
         unsplited_data = self.virtualBatteryInfo_UnSplited()
-
         splited_data = self.split_BatteryData(unsplited_data, 14)
-
         correct_formed = self.virtualBatteryInfo_Splited()
-
 
 
     def chargingStateMachine(self):
@@ -229,8 +220,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.log("already charging")
 
 
-
-
     def StopChargingStateMachine(self):
         if self.state == "charging":
             self.log("Stop Charging...")
@@ -244,48 +233,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         else:
             self.log("not charging")
-
-
-
-
-
-    # Testing: only for updating
-    def virtualBatteryInfo_Splited(self):
-        virtual70Cell = []
-
-        for batch in range(0, 5):
-            virtualdict = {}
-            for cell in range(1,15):
-                virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-            virtual70Cell.append(virtualdict)
-
-
-        # print(virtual70Cell)
-        return virtual70Cell
-
-
-    def virtualBatteryInfo_UnSplited(self):
-        virtualdict = {}
-        for cell in range(1, 71):
-            virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-        # print(virtualdict)
-        return virtualdict
-
-
-    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
-    def split_BatteryData(self, input_dict, chunk_size=14):
-        res = []
-        new_dict = {}
-        for k, v in input_dict.items():
-            if len(new_dict) < chunk_size:
-                new_dict[k] = v
-            else:
-                res.append(new_dict)
-                new_dict = {k: v}
-        res.append(new_dict)
-        return res
 
 
     def getMeanMaxMinOfVoltage(self, batteryInfo):
@@ -312,60 +259,16 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             if singleTemp < minTemp:
                 minTemp = singleTemp
 
-
-
-
         mean = totalVoltage/70
-
         self.maxVolt_textbox.setText(str(maxVol))
         self.minVolt_textbox.setText(str(minVol))
         self.maxTemp_textbox.setText(str(maxTemp))
         self.minTemp_textbox.setText(str(minTemp))
         self.rawVolt_textbox.setText(str(mean))
 
-
-
-
     def updateBatteryInfo(self, batteryInfo):
-        # batteryInfo
-        '''
-        batteryInfo = [
-        {
-            "cell_1": {
-                "voltage": 36,
-                "temp": 25,
-            },
-
-            "cell_2": {
-                "voltage": 36,
-                "temp": 25,
-            }
-        },
-
-        {
-            "cell_3": {
-                "voltage": 3.6,
-                "temp": 25,
-            },
-
-            "cell_4": {
-                "voltage": 3.6,
-                "temp": 25,
-            }
-        }
-        ]
-
-        '''
-
-
-
-
-        # self.logging_texbox.appendPlainText("updating battery Info")
-
-        batch_Index = 0
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
-        cellIndex = 1
         # virtual70Cells = self.virtualBatteryInfo_Splited()
 
         virtual70Cells = self.sio.get_battInfo()
@@ -389,37 +292,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.BoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
                 self.BoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
 
-        # iterate through 10 tables (5 pairs)
-        '''for BoxesIndex in range(0,Num_Batch*2,2):
-            curCellBatch = virtual70Cells[batch_Index]
-
-            print(f"curCellBatch = '{curCellBatch}'")
-
-            self.log(curCellBatch)
-
-            lowerBound = cellIndex
-            rowIndex = 0
-
-            print("From", cellIndex)
-            print("To", lowerBound+Num_Cell_Per_Batch)
-            print("CurrentCell", cellIndex)
-
-            # iterate over 7 cells in a batch / two tables
-            for cellIndex in range(cellIndex, lowerBound+Num_Cell_Per_Batch, 2):
-                # dictionary
-                odd = str(curCellBatch[f"cell_{cellIndex}"]["voltage"])
-                even = str(curCellBatch[f"cell_{cellIndex+1}"]["voltage"])
-
-                print(cellIndex)
-                self.BoxesList[BoxesIndex].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd))
-                self.BoxesList[BoxesIndex+1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even))
-
-                rowIndex+=1
-
-            batch_Index+=1
-            cellIndex = lowerBound+Num_Cell_Per_Batch
-            cellIndex+=1'''
-
 
     def update_SoC(self, percent):
         self.SOC_progressBar.setValue(percent)
@@ -429,7 +301,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.packCurrent_textbox.setValue(str(current))
         self.graphWidget_current.append(random.randint(100))
         self.logging_texbox.appendPlainText("updating current")
-
 
     def update_voltage(self, voltage):
         # self.graphWidget_volt.append(random.randint(100))
@@ -443,13 +314,46 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.logging_texbox.appendPlainText(log)
 
 
-
-
     def log(self, message):
         self.logging_texbox.appendPlainText(str(message))
 
 
+    ################################################
+    # Testing: only for updating
+    def virtualBatteryInfo_Splited(self):
+        virtual70Cell = []
 
+        for batch in range(0, 5):
+            virtualdict = {}
+            for cell in range(1, 15):
+                virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100),
+                                                            "temp": random.randint(100)}
+
+            virtual70Cell.append(virtualdict)
+
+        # print(virtual70Cell)
+        return virtual70Cell
+
+    def virtualBatteryInfo_UnSplited(self):
+        virtualdict = {}
+        for cell in range(1, 71):
+            virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100), "temp": random.randint(100)}
+
+        # print(virtualdict)
+        return virtualdict
+
+    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
+    def split_BatteryData(self, input_dict, chunk_size=14):
+        res = []
+        new_dict = {}
+        for k, v in input_dict.items():
+            if len(new_dict) < chunk_size:
+                new_dict[k] = v
+            else:
+                res.append(new_dict)
+                new_dict = {k: v}
+        res.append(new_dict)
+        return res
 
 
 if __name__ == "__main__":
