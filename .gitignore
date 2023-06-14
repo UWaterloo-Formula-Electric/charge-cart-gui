@@ -50,6 +50,7 @@ Thumbs.db
 
 cart_testing.py
 charge_cart.ui
+Examples/DemoGeneratedGUI.py
 Examples/ThreadExample.py
 Examples/multi_threading.py
 

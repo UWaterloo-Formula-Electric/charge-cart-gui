@@ -6,7 +6,6 @@ from charge_cart_GUI import Ui_MainWindow
 import sys
 from numpy import random
 from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
-from time import sleep
 
 
 # Command to export file
@@ -24,12 +23,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         super(MyWindow, self).__init__()
         self.setupUi(MainWindow)
         self.graphSetup()
-
         self.sio = SerialConnect()
         self.sio.port_setup()
 
         # force to show the main page first
-        self.CellTab.setCurrentIndex(0)
+        self.Main.setCurrentIndex(0)
         self.SOC_progressBar.setValue(0)
 
         # charging state
@@ -38,20 +36,15 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setCurrent_input.setText("5")
 
         # Make sure this is false when not connect
-        self.isConnected = False
+        self.isConnected = True
 
         # connect all the buttons
         # self.connect_pb.clicked.connect(self.updateData)
-        self.connect_pb.clicked.connect(self.connectPort)
         # self.connect_pb.clicked.connect(self.updateBatteryInfo)
-
-
+        self.connect_pb.clicked.connect(self.connectPort)
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
-
-
-
 
         self.BoxesList = []
         self.BoxesList.append(self.box1_odd)
@@ -71,36 +64,40 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # ================================================
         # Create QThread and Worker objects
-        self.thread = QThread()
+        self.thread1 = QThread()
+        self.thread2 = QThread()
+
         # Create a worker object
-        # self.connector = SerialConnect()
         self.battWorker = Worker_UpdateBatteryInfo(self.sio)
         self.stateWorker = Worker_UpdateState(self.sio)
 
-
         # Move worker to the thread
-        self.battWorker.moveToThread(self.thread)
+        self.battWorker.moveToThread(self.thread1)
+        self.stateWorker.moveToThread(self.thread2)
 
         # Connect signals and slots
-        self.thread.started.connect(self.battWorker.run)
+        self.thread1.started.connect(self.battWorker.run)
+        self.thread2.started.connect(self.stateWorker.run)
 
-        self.battWorker.finished.connect(self.thread.quit)
-
+        self.battWorker.finished.connect(self.thread1.quit)
         self.battWorker.finished.connect(self.battWorker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
+        self.stateWorker.finished.connect(self.thread2.quit)
+        self.stateWorker.finished.connect(self.stateWorker.deleteLater)
 
         # self.worker.progress1.connect(self.updateBatteryInfo)
+        self.thread1.finished.connect(self.thread1.deleteLater)
+        self.thread2.finished.connect(self.thread2.deleteLater)
+
         self.battWorker.batteryInfo.connect(self.updateBatteryInfo)
         self.battWorker.log.connect(self.updateLog)
-
 
         self.stateWorker.SoCprogress.connect(self.update_SoC)
         self.stateWorker.currentProgress.connect(self.update_Current)
         self.stateWorker.voltProgress.connect(self.update_voltage)
 
         # Start thread
-        self.thread.start()
-
+        self.thread1.start()
+        self.thread2.start()
 
 
     # all the functions being called
@@ -112,8 +109,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # wait until debug serial connection
         port_isFound = self.sio.port_setup()
 
-
-        if port_isFound == False:
+        if not port_isFound:
             self.logging_texbox.appendPlainText("port not found :(")
         else:
             self.logging_texbox.appendPlainText("port found :)")
@@ -206,78 +202,36 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             if singleTemp < minTemp:
                 minTemp = singleTemp
 
-
         mean = totalVoltage/70
-
         self.maxVolt_textbox.setText(str(maxVol))
         self.minVolt_textbox.setText(str(minVol))
         self.maxTemp_textbox.setText(str(maxTemp))
         self.minTemp_textbox.setText(str(minTemp))
         self.rawVolt_textbox.setText(str(mean))
 
-
     def updateBatteryInfo(self, batteryInfo):
-        # BatteryInfo argument: from worker class emit function (unsplitted)
-        self.logging_texbox.appendPlainText("updating battery Info")
 
-        # a dictionary
-        if batteryInfo == {}:
-            unsplittedBattInfo = self.sio.get_battInfo()
-
-        if unsplittedBattInfo == "error":
-            print("ERROR received from getBattInfo")
-        
-        print("============================================================")
-        print("Unsplitted Battery Data: ")
-        print(unsplittedBattInfo)
-        print("============================================================")
-
-        batteryInfo = self.split_BatteryData(unsplittedBattInfo)
-        splittedBattInfo = self.split_BatteryData(unsplittedBattInfo)
-        print("Splitted Battery Data: ")
-        print(splittedBattInfo)
-        print("============================================================")
-
-
-        # Update all voltage, current textbox
-        # self.update_voltage(self.sio.getVoltage())
-        # self.update_Current(self.sio.getCurrent())
-        # self.updateMeanMaxMinOfBatt(batteryInfo)
-
-        batch_Index = 0
-        Num_Cell_Per_Batch = 13
+        Num_Cell_Per_Batch = 7
         Num_Batch = 5
-        cellIndex = 1
+        virtual70Cells = self.sio.get_battInfo()
 
-        # iterate through 10 tables (5 pairs)
-        for BoxesIndex in range(0,Num_Batch*2,2):
-            curCellBatch = splittedBattInfo[batch_Index]
+        cell_data = virtual70Cells.strip().split("\r\n")
 
-            # print(f"curCellBatch = '{curCellBatch}'")
-            # self.log(curCellBatch)
+        if virtual70Cells == "error":
+            print("ERROR received from getBattInfo")
 
-            lowerBound = cellIndex
-            rowIndex = 0
+        self.update_voltage(100)
 
-            # print("From", cellIndex)
-            # print("To", lowerBound+Num_Cell_Per_Batch)
-            # print("CurrentCell", cellIndex)
+        for BoxesIndex in range(Num_Batch):
+            for rowIndex in range(0, Num_Cell_Per_Batch):
+                even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
+                odd_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1]
 
-            # iterate over 7 cells in a batch / two tables
-            for cellIndex in range(cellIndex, lowerBound+Num_Cell_Per_Batch, 2):
-                # dictionary
-                odd = str(curCellBatch[f"cell_{cellIndex}"]["voltage"])
-                even = str(curCellBatch[f"cell_{cellIndex+1}"]["voltage"])
+                even_val = even_data.split("\t")[1]
+                odd_val = odd_data.split("\t")[1]
 
-                # print(cellIndex)
-                self.BoxesList[BoxesIndex].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd))
-                self.BoxesList[BoxesIndex+1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even))
-
-                rowIndex += 1
-
-            batch_Index += 1
-            cellIndex = lowerBound+Num_Cell_Per_Batch
-            cellIndex += 1
+                self.BoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
+                self.BoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
 
 
     def update_SoC(self, percent):
@@ -315,7 +269,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
 
             virtual70Cell.append(virtualdict)
-
 
         # print(virtual70Cell)
         return virtual70Cell

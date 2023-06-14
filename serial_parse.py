@@ -4,13 +4,11 @@ import serial.tools.list_ports
 from serial import Serial
 import matplotlib.pyplot as plt
 from document.CommandOutput import BatteryInfoString
-import re
 
 
 class SerialConnect(object):
     BAUD_RATE = 230400
-    # STLINK_NAME = "STMicroelectronics STLink Virtual COM Port"
-    STLINK_NAME = "STM32 STLink"
+    STLINK_NAME = "STMicroelectronics STLink Virtual COM Port"
     NUM_CELLS = 70
 
     def __init__(self):
@@ -18,23 +16,15 @@ class SerialConnect(object):
         self.cell_data = {}
         self.all_ports = []
         self.sio = None
-        self.isTesting = True;
-
-    # Cell Data Dictionary:
-    """
-    cell_data = {
-        "cell_1": {
-            "voltage": 3.6,
-            "temp": 25,
-        }
-    }
-    """
+        self.isTesting = True
 
     def port_setup(self):
+        # Return bool True/False
         # Populate Cell Data dictionary:
         for cell_num in range(self.NUM_CELLS):
-            # From cell_1 to cell_70
-            self.cell_data.update({f"cell_{cell_num + 1}": {"voltage": 0, "temp": 0}})
+            self.cell_data.update({f"cell_{cell_num}": {"voltage": 0, "temp": 0}})
+
+        # print(cell_data["cell_0"]["voltage"])
 
         # open the port
         ports = serial.tools.list_ports.comports()
@@ -52,18 +42,15 @@ class SerialConnect(object):
 
         for p in self.all_ports:
             curr = p.lower()
-            print(curr)
-            if self.STLINK_NAME.lower() in curr:
+            # Always pass for now, add dropdown in GUI for selecting COM port later
+            if True:  # or self.STLINK_NAME.lower() in curr:
                 serial_port = p.split(':')[0]
                 port_found = True
                 message = f"Found STLink on {serial_port}"
                 print(message)
 
                 # Setup Serial Connection
-                self.ser = Serial(serial_port,
-                                  self.BAUD_RATE,
-                                  stopbits=1,
-                                  parity=serial.PARITY_NONE,
+                self.ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE,
                                   bytesize=serial.EIGHTBITS,
                                   timeout=0)
                 # Not so sure what this does
@@ -78,8 +65,6 @@ class SerialConnect(object):
             return port_found
 
         return port_found
-
-    ####
 
     def execute(self):
         fig = plt.figure()
@@ -105,38 +90,40 @@ class SerialConnect(object):
 
     # Get battInfo and parse important information
     def get_battInfo(self):
-        # For testing purpose
-        if self.isTesting:
-            data = BatteryInfoString
-        else:
-            # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-            self.ser.write("battInfo\n".encode())
-            # sio.flush()
-            time.sleep(0.2)  # Wait for response
-            raw_data = self.ser.read(self.ser.inWaiting())
-            data = raw_data.decode()
+        # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+        self.ser.write("battInfo\n".encode())
+        # sio.flush()
+        time.sleep(0.2)  # Wait for response
+        raw_data = self.ser.read(self.ser.inWaiting())
+        data = raw_data.decode()
 
         if not data:
             print("ERROR: NO DATA RECEIVED FROM BATTINFO CMD")
             return "error"
 
-
         else:
-            # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            # print("data: ")
-            # print(data)
-            # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print(data)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             ###     PARSE DATA FROM BATTINFO    ###
-            data = data.split("Index   Cell Voltage(V) Temp Channel(degC)")[1].split("<bmu")[0]
-            for line in data.split('\n'):
-                parsed = re.split(r'     ', line.rstrip('     '))
+            data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")[1].split("bmu >")[0]
+            # print(cell_data)
+            for line in data.split("\n"):
+                parsed = line.strip().split("\t")
                 if len(parsed) > 1:
                     try:
                         # data Cell     Voltage     Temp
-                        cell_num = int(parsed[0].strip()) + 1
-                        cell_voltage = round(float(parsed[1].strip()), 2)
-                        cell_temp = round(float(parsed[2].strip()), 2)
+                        cell_num = int(parsed[0])
+                        cell_voltage = parsed[1]
+                        cell_temp = parsed[2]
+
+                        # 70x3 array
+                        '''
+                        [[cell_num,cell_voltage, cell_temp], 
+                         [cell_num,cell_voltage, cell_temp],
+                         [cell_num,cell_voltage, cell_temp]]
+                        '''
 
                         cell_key = f"cell_{cell_num}"
 
@@ -150,9 +137,9 @@ class SerialConnect(object):
                         print(parsed)
                         print(self.cell_data)
 
-                    print(f"{cell_num} {cell_voltage} {cell_temp}")
-        # print(self.cell_data)
-        return self.cell_data
+                    # print(f"{cell_num} {cell_voltage} {cell_temp}")
+
+            return data
 
     def getSoC(self):
         soc = self.sendRequest("balanceCell")
