@@ -1,21 +1,16 @@
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from serial_parse import SerialConnect
 from charge_cart_GUI import Ui_MainWindow
 import sys
 from numpy import random
 from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
+from datetime import datetime
 
-
-# Command to export file
-# python3 -m PyQt6.uic.pyuic -o testing.py -x untitled.ui
-# python3 -m PyQt6.uic.pyuic -o charge_cart_GUI.py -x charge_cart_GUI.ui
 
 # 1: dev_mod/ 0: test_mode
 global env_dev
 env_dev = 0
-
 
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
@@ -46,17 +41,29 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
 
-        self.BoxesList = []
-        self.BoxesList.append(self.box1_odd)
-        self.BoxesList.append(self.box1_even)
-        self.BoxesList.append(self.box2_odd)
-        self.BoxesList.append(self.box2_even)
-        self.BoxesList.append(self.box3_odd)
-        self.BoxesList.append(self.box3_even)
-        self.BoxesList.append(self.box4_odd)
-        self.BoxesList.append(self.box4_even)
-        self.BoxesList.append(self.box5_odd)
-        self.BoxesList.append(self.box5_even)
+        self.volBoxesList = []
+        self.volBoxesList.append(self.box1_odd)
+        self.volBoxesList.append(self.box1_even)
+        self.volBoxesList.append(self.box2_odd)
+        self.volBoxesList.append(self.box2_even)
+        self.volBoxesList.append(self.box3_odd)
+        self.volBoxesList.append(self.box3_even)
+        self.volBoxesList.append(self.box4_odd)
+        self.volBoxesList.append(self.box4_even)
+        self.volBoxesList.append(self.box5_odd)
+        self.volBoxesList.append(self.box5_even)
+
+        self.tempBoxesList = []
+        self.tempBoxesList.append(self.B1_odd)
+        self.tempBoxesList.append(self.B1_even)
+        self.tempBoxesList.append(self.B2_odd)
+        self.tempBoxesList.append(self.B2_even)
+        self.tempBoxesList.append(self.B3_odd)
+        self.tempBoxesList.append(self.B3_even)
+        self.tempBoxesList.append(self.B4_odd)
+        self.tempBoxesList.append(self.B4_even)
+        self.tempBoxesList.append(self.B5_odd)
+        self.tempBoxesList.append(self.B5_even)
 
     def updateData(self):
         # Stop GUI from freezing as program runs
@@ -210,7 +217,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.rawVolt_textbox.setText(str(mean))
 
     def updateBatteryInfo(self, batteryInfo):
-
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
         virtual70Cells = self.sio.get_battInfo()
@@ -222,6 +228,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         self.update_voltage(100)
 
+        # populate voltage table
         for BoxesIndex in range(Num_Batch):
             for rowIndex in range(0, Num_Cell_Per_Batch):
                 even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
@@ -230,8 +237,23 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 even_val = even_data.split("\t")[1]
                 odd_val = odd_data.split("\t")[1]
 
-                self.BoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
-                self.BoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+                self.volBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
+                self.volBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+
+        # populate temp table
+        for BoxesIndex in range(Num_Batch):
+            for rowIndex in range(0, Num_Cell_Per_Batch):
+                even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
+                odd_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1]
+
+                even_val = even_data.split("\t")[0]
+                odd_val = odd_data.split("\t")[0]
+
+                self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
+                self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+
+        self.getTimeStamp()
+
 
 
     def update_SoC(self, percent):
@@ -253,6 +275,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
     def log(self, message):
         self.logging_texbox.appendPlainText(str(message))
+
+    def getTimeStamp(self):
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        self.log("Timestamp-" + current_time)
 
 
 

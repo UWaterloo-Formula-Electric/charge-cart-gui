@@ -1,10 +1,4 @@
-from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
-from serial_parse import SerialConnect
-from charge_cart_GUI import Ui_MainWindow
-import sys
-from numpy import random
 from time import sleep
 
 
