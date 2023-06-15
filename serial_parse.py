@@ -107,44 +107,14 @@ class SerialConnect(object):
             return "error"
 
         else:
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print(data)
-            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
             ###     PARSE DATA FROM BATTINFO    ###
-            data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")[1].split("bmu >")[0]
-            # print(cell_data)
-            for line in data.split("\n"):
-                parsed = line.strip().split("\t")
-                if len(parsed) > 1:
-                    try:
-                        # data Cell     Voltage     Temp
-                        cell_num = int(parsed[0])
-                        cell_voltage = parsed[1]
-                        cell_temp = parsed[2]
+            split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
 
-                        # 70x3 array
-                        '''
-                        [[cell_num,cell_voltage, cell_temp], 
-                         [cell_num,cell_voltage, cell_temp],
-                         [cell_num,cell_voltage, cell_temp]]
-                        '''
+            # TODO: Need to parse htis
+            split_data[0]
 
-                        cell_key = f"cell_{cell_num}"
-
-                        # Populate dictionary entry
-                        if cell_key in self.cell_data.keys():
-                            self.cell_data[cell_key]["voltage"] = cell_voltage
-                            self.cell_data[cell_key]["temp"] = cell_temp
-
-                    except Exception as e:  # TODO: Remove this once all parsing bugs are fixed
-                        print("Got Exception", e)
-                        print(parsed)
-                        print(self.cell_data)
-
-                    # print(f"{cell_num} {cell_voltage} {cell_temp}")
-
-            return data
+            cell_data = split_data[1].split("bmu >")[0]
+            return cell_data
 
     def getSoC(self):
         soc = self.sendRequest("balanceCell")

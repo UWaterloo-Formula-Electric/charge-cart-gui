@@ -76,3 +76,14 @@ Index   Cell Voltage(V) Temp Channel(degC)
 68      4.027500        22.764343
 69      4.029100        22.831297
 """
+
+OtherBattInfo = """
+IBUS    VBUS    VBATT
+0.050573        -1.800297       -2.447110
+
+MinVoltage      MaxVoltage      MinTemp MaxTemp PackVoltage
+4.011531        4.060500        20.949930       21.538898       281.745911
+
+*Note Temp is not related to a specific cell number
+
+"""

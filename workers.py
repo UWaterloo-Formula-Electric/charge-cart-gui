@@ -11,7 +11,7 @@ class Worker_UpdateBatteryInfo(QObject):
     progress1 = pyqtSignal(int)
 
     log = pyqtSignal(str)
-    batteryInfo = pyqtSignal(list)
+    batteryInfo = pyqtSignal(str)
 
     # Shared connector object
     def __init__(self, connector):

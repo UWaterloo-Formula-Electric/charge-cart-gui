@@ -14,7 +14,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setupUi(MainWindow)
         self.graphSetup()
         self.sio = SerialConnect()
-        self.sio.port_setup()
 
         # force to show the main page first
         self.Main.setCurrentIndex(0)
@@ -213,11 +212,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
-        virtual70Cells = self.sio.get_battInfo()
+        cell_data = self.sio.get_battInfo().strip().split("\r\n")
 
-        cell_data = virtual70Cells.strip().split("\r\n")
-
-        if virtual70Cells == "error":
+        if cell_data == "error":
             print("ERROR received from getBattInfo")
 
         self.update_voltage(100)
@@ -228,23 +225,17 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
                 odd_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1]
 
-                even_val = even_data.split("\t")[1]
-                odd_val = odd_data.split("\t")[1]
+                volt_even_val = even_data.split("\t")[1]
+                volt_odd_val = odd_data.split("\t")[1]
 
-                self.volBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
-                self.volBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+                self.volBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(volt_even_val))
+                self.volBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(volt_odd_val))
 
-        # populate temp table
-        for BoxesIndex in range(Num_Batch):
-            for rowIndex in range(0, Num_Cell_Per_Batch):
-                even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
-                odd_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1]
+                temp_even_val = even_data.split("\t")[2]
+                temp_odd_val = odd_data.split("\t")[2]
 
-                even_val = even_data.split("\t")[0]
-                odd_val = odd_data.split("\t")[0]
-
-                self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(even_val))
-                self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(odd_val))
+                self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_even_val))
+                self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_odd_val))
 
         self.logTimeStamp()
 
@@ -260,8 +251,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.logging_texbox.appendPlainText("updating current")
 
     def update_voltage(self, voltage):
-        self.rawVolt_textbox.setValue(str(voltage))
-        self.graphWidget_volt.append(str(voltage))
+        self.rawVolt_textbox.setText(str(voltage))
+        #self.graphWidget_volt.append(str(voltage))
         self.logging_texbox.appendPlainText("updating voltage")
 
     def updateLog(self, log):
