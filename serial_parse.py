@@ -143,31 +143,11 @@ class SerialConnect(object):
                 "PackVoltage": PackVoltage}
 
     def getSoC(self):
-        soc = self.sendRequest("balanceCell")
+        soc = self.sendRequest("soc")
         return float(soc)
 
     def balancePack(self):
         self.sendRequest("balanceCell")
-
-    # sending Max current request
-    def setCurrent(self):
-        self.sendRequest("maxChargeCurrent")
-
-    # Is this the right command?
-    def getCurrent(self):
-        data = self.sendRequest("printHVMeasurements")
-        return data
-
-    def getVoltage(self):
-        data = self.sendRequest("printHVMeasurements")
-        return data
-
-    def startCharging(self, current):
-        self.sendRequest(current)
-
-    def StopCharging(self):
-        message = self.sendRequest("stopCharge")
-        return message
 
     def sendRequest(self, command):
         command = command + "\n"
@@ -177,14 +157,29 @@ class SerialConnect(object):
         raw_data = self.sio.read(self.sio.inWaiting())
         return raw_data.decode()
 
-    def get_cell_data(self):
-        return self.cell_data
+    def setForceChargeMode(self):
+        return self.sendRequest("forceChargeMode 1")
+
+    def canStartCharger(self):
+        return self.sendRequest("canStartCharger")
+
+    def hvToggle(self):
+        return self.sendRequest("hvToggle")
+
+    # sending Max current request
+    def setMaxCurrent(self):
+        return self.sendRequest("maxChargeCurrent")
+
+    def startCharging(self):
+        return self.sendRequest("startCharge")
+
+    def StopCharging(self):
+        return self.sendRequest("stopCharge")
+
+
 
     def get_port_name(self):
         return self.all_ports
-
-    def get_cellNum(self):
-        return self.NUM_CELLS
 
 #
 # if __name__ == "__main__":

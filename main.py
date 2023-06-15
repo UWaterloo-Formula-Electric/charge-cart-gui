@@ -129,85 +129,102 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.setLabel('left', 'Volt')
         self.graphWidget_volt.addLegend()
 
-    # TODO: Add logic
+    # TODO: Add logic (maybe add an option for input)
     def startBalancing(self):
         self.logging_texbox.appendPlainText("start balancing")
+        self.sio.balancePack()
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
+        def checkResponse(expected, response, state):
+            if response == expected:
+                self.log(response)
+                state = state + 1
+            if response == "error":
+                self.log("There is some error")
+            else:
+                self.log(response)
+
         if self.state == "Pause":
             self.log("Charging...")
-            self.state = "Charging"
 
-            # move this to serial_parse class
-            self.sio.sendRequest("forceChargeCommand 1")
-            self.log("forceChargeCommand 1")
+            state = 0
+            # a. setForceChargeMode
+            if state == 0:
+                expectedMessage = "Working"
+                response = self.sio.setForceChargeMode()
+                checkResponse(expectedMessage, response, state)
+            # b. canStartCharger
+            if state == 1:
+                expectedMessage = "Working"
+                response = self.sio.canStartCharger()
+                checkResponse(expectedMessage, response, state)
+            # c. hvToggle
+            if state == 2:
+                expectedMessage = "Working"
+                response = self.sio.canStartCharger()
+                checkResponse(expectedMessage, response, state)
+            # d. setMaxCharge
+            if state == 3:
+                expectedMessage = "Working"
+                response = self.sio.setMaxCurrent()
+                checkResponse(expectedMessage, response, state)
+            # e. startCharge
+            if state == 4:
+                expectedMessage = "Working"
+                response = self.sio.startCharging()
+                checkResponse(expectedMessage, response, state)
+                self.state = "Charging"
+                self.startCharging_pb.setLabel("Stop Charging");
 
-            canStartCharger_Message = self.sio.sendRequest("canStartCharger")
-            self.log(canStartCharger_Message)
 
-            message = self.sio.sendRequest("hvToggle")
-            self.log(message)
-
-
-            currentVal = self.setCurrent_input.toPlainText()
-
-            if currentVal.isnumeric():
-                currentVal = f"current {currentVal}"
-                self.sio.startCharging(currentVal)
-
-                self.startCharging_pb.setText(self.state)
-            else:
-                self.log(f"invalid input, current passed is not a number")
+            # currentVal = self.setCurrent_input.toPlainText()
+            #
+            # if currentVal.isnumeric():
+            #     currentVal = f"current {currentVal}"
+            #     self.sio.startCharging(currentVal)
+            #
+            #     self.startCharging_pb.setText(self.state)
+            # else:
+            #     self.log(f"invalid input, current passed is not a number")
 
         else:
-            self.log("already charging")
+            self.StopChargingStateMachine()
 
     # TODO: See the document charging procedure
     def StopChargingStateMachine(self):
-        if self.state == "charging":
-            self.log("Stop Charging...")
-            self.state = "Pause"
-            message = self.sio.StopCharging()
+        def checkResponse(expected, response, state):
+            if response == expected:
+                self.log(response)
+                state = state + 1
+            if response == "error":
+                self.log("There is some error")
+            else:
+                self.log(response)
 
-            if message == "charging done":
-                self.sio.sendRequest("hvToggle")
+        if self.state == "Charging":
+            self.log("Charging...")
+            self.state = "Charging"
 
-            self.startCharging_pb.setText(self.state)
-
+            state = 0
+            # a. StopCharging
+            if state == 0:
+                expectedMessage = "Working"
+                response = self.sio.StopCharging()
+                checkResponse(expectedMessage, response, state)
+            # b. hvToggle
+            if state == 1:
+                expectedMessage = "charging done"
+                response = self.sio.hvToggle()
+                if response == expectedMessage:
+                    self.log(response)
+                    self.state = "Pulse"
+                    self.startCharging_pb.setLabel("Charging");
         else:
-            self.log("not charging")
+                self.log("Not Charging...")
 
-    def updateMeanMaxMinOfBatt(self, batteryInfo):
-        # Testing
-        # batteryInfo = self.virtualBatteryInfo_UnSplited()
 
-        totalVoltage = 0
-        maxVol = batteryInfo[f"cell_1"]["voltage"]
-        minVol = batteryInfo[f"cell_1"]["voltage"]
-        maxTemp = batteryInfo[f"cell_1"]["temp"]
-        minTemp = batteryInfo[f"cell_1"]["temp"]
 
-        for i in range(70):
-            singleVol = batteryInfo[f"cell_{i}"]["voltage"]
-            singleTemp = batteryInfo[f"cell_{i}"]["temp"]
-            totalVoltage += singleVol
-            if singleVol > maxVol:
-                maxVol = singleVol
-            if singleVol < minVol:
-                minVol = singleVol
-
-            if singleTemp > maxTemp:
-                maxTemp = singleTemp
-            if singleTemp < minTemp:
-                minTemp = singleTemp
-
-        mean = totalVoltage/70
-        self.maxVolt_textbox.setText(str(maxVol))
-        self.minVolt_textbox.setText(str(minVol))
-        self.maxTemp_textbox.setText(str(maxTemp))
-        self.minTemp_textbox.setText(str(minTemp))
-        self.rawVolt_textbox.setText(str(mean))
 
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
@@ -240,16 +257,13 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_odd_val))
 
 
+        # Update main page
         self.maxVolt_textbox().setText(cellSummary["MaxVoltage"])
         self.minVolt_textbox().setText(cellSummary["MinTemp"])
         self.maxTemp_textbox().setText(cellSummary["MaxTemp"])
         self.minTemp_textbox().setText(cellSummary["MinTemp"])
         self.packCurrent_textbox().setText(cellSummary["IBUS"])
-        # TODO: Change the name to pack voltage
         self.rawVolt_textbox().setText(cellSummary["PackVoltage"])
-
-
-
 
         self.logTimeStamp()
 
