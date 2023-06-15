@@ -75,7 +75,7 @@ class SerialConnect(object):
         for i in range(10):
             # get battInfo commend
             # input("Press Enter to get battInfo")
-            self.get_battInfo(self.ser)
+            self.get_battInfo(self.ser)[0]
             print("Got battInfo", i + 1)
             for cell_name in self.cell_data.keys():
                 plt.scatter(i, self.cell_data[cell_name]["voltage"])
@@ -110,11 +110,37 @@ class SerialConnect(object):
             ###     PARSE DATA FROM BATTINFO    ###
             split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
 
-            # TODO: Need to parse htis
-            split_data[0]
+            battSummary = self.parseCellSummary(split_data[0])
 
             cell_data = split_data[1].split("bmu >")[0]
-            return cell_data
+
+            return [cell_data, battSummary]
+
+    def parseCellSummary(self, data):
+        mainInfo = data.split("*Note Temp is not related to a specific cell number")[0]
+        IVBUS = mainInfo.strip().split('\n\n')[0]
+        IVBUS_Num = IVBUS.split('\n')[1].split('     ')
+        IBUS = IVBUS_Num[0].strip()
+        VBUS = IVBUS_Num[1].strip()
+        VBATT = IVBUS_Num[2].strip()
+
+        volANDTEMP = mainInfo.strip().split('\n\n')[1]
+        volANDTEMP_Num = volANDTEMP.split('\n')[1].split('     ')
+        MinVoltage = volANDTEMP_Num[0].strip()
+        MaxVoltage = volANDTEMP_Num[1].strip()
+        MinTemp = volANDTEMP_Num[2].strip()
+        MaxTemp = volANDTEMP_Num[3].strip()
+        PackVoltage = volANDTEMP_Num[4].strip()
+
+
+        return {"IBUS": IBUS,
+                "VBUS": VBUS,
+                "VBATT": VBATT,
+                "MinVoltage":MinVoltage,
+                "MaxVoltage": MaxVoltage,
+                "MinTemp": MinTemp,
+                "MaxTemp": MaxTemp,
+                "PackVoltage": PackVoltage}
 
     def getSoC(self):
         soc = self.sendRequest("balanceCell")

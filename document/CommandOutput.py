@@ -85,5 +85,19 @@ MinVoltage      MaxVoltage      MinTemp MaxTemp PackVoltage
 4.011531        4.060500        20.949930       21.538898       281.745911
 
 *Note Temp is not related to a specific cell number
-
 """
+
+mainInfo = OtherBattInfo.split("*Note Temp is not related to a specific cell number")[0]
+IVBUS = mainInfo.strip().split('\n\n')[0]
+IVBUS_Num = IVBUS.split('\n')[1].split('     ')
+IBUS = IVBUS_Num[0].strip()
+VBUS = IVBUS_Num[1].strip()
+VBATT = IVBUS_Num[2].strip()
+
+volANDTEMP = mainInfo.strip().split('\n\n')[1]
+volANDTEMP_Num = volANDTEMP.split('\n')[1].split('     ')
+MinVoltage = volANDTEMP_Num[0].strip()
+MaxVoltage = volANDTEMP_Num[1].strip()
+MinTemp = volANDTEMP_Num[2].strip()
+PackVoltage = volANDTEMP_Num[3].strip()
+

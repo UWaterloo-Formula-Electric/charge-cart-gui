@@ -212,7 +212,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
-        cell_data = self.sio.get_battInfo().strip().split("\r\n")
+        cells = self.sio.get_battInfo();
+        cell_data = cells[0].strip().split("\r\n")
+        cellSummary = cells[1]
 
         if cell_data == "error":
             print("ERROR received from getBattInfo")
@@ -236,6 +238,18 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
                 self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_even_val))
                 self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_odd_val))
+
+
+        self.maxVolt_textbox().setText(cellSummary["MaxVoltage"])
+        self.minVolt_textbox().setText(cellSummary["MinTemp"])
+        self.maxTemp_textbox().setText(cellSummary["MaxTemp"])
+        self.minTemp_textbox().setText(cellSummary["MinTemp"])
+        self.packCurrent_textbox().setText(cellSummary["IBUS"])
+        # TODO: Change the name to pack voltage
+        self.rawVolt_textbox().setText(cellSummary["PackVoltage"])
+
+
+
 
         self.logTimeStamp()
 

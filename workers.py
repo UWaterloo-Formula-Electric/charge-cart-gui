@@ -29,11 +29,9 @@ class Worker_UpdateBatteryInfo(QObject):
         # connect to the port
         # emit a list of batteries
 
-        # TODO: maybe not keep connecting this
-        # if self.connector.port_setup():
         if self.connector.getConnectionStatus:
             # self.connector.execute()
-            self.batteryInfo.emit(self.connector.get_battInfo())
+            self.batteryInfo.emit(self.connector.get_battInfo()[0])
 
         else:
             self.log.emit("connection failed!")

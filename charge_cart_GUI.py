@@ -15,14 +15,14 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setFixedSize(750, 630)
+        MainWindow.setFixedSize(800, 630)
 
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Main = QtWidgets.QTabWidget(parent=self.centralwidget)
-        self.Main.setGeometry(QtCore.QRect(60, 0, 630, 571))
-        self.Main.setMinimumSize(QtCore.QSize(630, 570))
-        self.Main.setMaximumSize(QtCore.QSize(650, 600))
+        self.Main.setGeometry(QtCore.QRect(60, 0, 690, 571))
+        # self.Main.setMinimumSize(QtCore.QSize(650, 570))
+        # self.Main.setMaximumSize(QtCore.QSize(690, 600))
         self.Main.setObjectName("Main")
         self.mainTab = QtWidgets.QWidget()
         self.mainTab.setObjectName("mainTab")
@@ -786,7 +786,7 @@ class Ui_MainWindow(object):
         self.maxTemp_label.setText(_translate("MainWindow", "Max cell temp"))
         self.minCell_label.setText(_translate("MainWindow", "Min cell temp"))
         self.packCurrent_label.setText(_translate("MainWindow", "Pack current"))
-        self.rawVolt_label.setText(_translate("MainWindow", "Battery raw voltage"))
+        self.rawVolt_label.setText(_translate("MainWindow", "Pack voltage"))
         self.SOC_label.setText(_translate("MainWindow", "State of charge"))
         self.startCharging_pb.setText(_translate("MainWindow", "Start Charging"))
         self.setCurrent_pb.setText(_translate("MainWindow", "Confirm"))
