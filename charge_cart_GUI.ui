@@ -260,7 +260,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Battery raw voltage</string>
+       <string>Pack voltage</string>
       </property>
      </widget>
      <widget class="QProgressBar" name="SOC_progressBar">

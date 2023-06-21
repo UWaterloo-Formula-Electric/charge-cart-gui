@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from serial_parse import SerialConnect
 from charge_cart_GUI import Ui_MainWindow
@@ -119,7 +119,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             # start populating data (workers)
             self.updateData()
 
-
+    #TODO: Update graph
     def graphSetup(self):
         self.graphWidget_current.setBackground('w')
         self.graphWidget_current.setLabel('left', 'Ampere')
@@ -130,9 +130,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.addLegend()
 
     # TODO: Add logic (maybe add an option for input)
+    # it is testing block here for now
     def startBalancing(self):
         self.logging_texbox.appendPlainText("start balancing")
-        self.sio.balancePack()
+        #self.sio.balancePack()
+        self.volBoxesList[1].setItem(1, 1, QtWidgets.QTableWidgetItem("3")).setBackground(QtGui.QColor(100,100,150))
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
@@ -224,8 +226,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.log("Not Charging...")
 
 
-
-
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
@@ -268,15 +268,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.logTimeStamp()
 
 
-
     def update_SoC(self, percent):
         self.SOC_progressBar.setValue(percent)
         self.logging_texbox.appendPlainText("updating state of charge")
-
-    def update_Current(self, current):
-        self.packCurrent_textbox.setValue(str(current))
-        self.graphWidget_current.append(str(current))
-        self.logging_texbox.appendPlainText("updating current")
 
     def update_voltage(self, voltage):
         self.rawVolt_textbox.setText(str(voltage))
@@ -293,52 +287,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
         self.log("Timestamp-" + current_time)
-
-
-
-
-    # Testing only: create a virtual data
-    # Also see document/CommandOutput example
-    # ---------------------------------------------------
-    def virtualBatteryInfo_Splited(self):
-        virtual70Cell = []
-
-        for batch in range(0, 5):
-            virtualdict = {}
-            for cell in range(1,15):
-                virtualdict[f"cell_{14 * batch + cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-            virtual70Cell.append(virtualdict)
-
-        # print(virtual70Cell)
-        return virtual70Cell
-
-
-    def virtualBatteryInfo_UnSplited(self):
-        virtualdict = {}
-        for cell in range(1, 71):
-            virtualdict[f"cell_{cell}"] = {"voltage": random.randint(100) , "temp": random.randint(100)}
-
-        print(virtualdict)
-        return virtualdict
-
-
-    # https://gist.github.com/nz-angel/31890d2c6cb1c9105e677cacc83a1ffd
-    # Allows to split a dictionary into chunks of equal size (list).
-    def split_BatteryData(self, input_dict, chunk_size=14):
-        res = []
-        new_dict = {}
-        for k, v in input_dict.items():
-            if len(new_dict) < chunk_size:
-                new_dict[k] = v
-            else:
-                res.append(new_dict)
-                new_dict = {k: v}
-        res.append(new_dict)
-        return res
-    # ---------------------------------------------------
-
-
 
 
 

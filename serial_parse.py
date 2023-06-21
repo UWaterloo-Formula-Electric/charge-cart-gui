@@ -21,12 +21,6 @@ class SerialConnect(object):
 
     def port_setup(self):
         # Return bool True/False
-        # Populate Cell Data dictionary:
-        for cell_num in range(self.NUM_CELLS):
-            self.cell_data.update({f"cell_{cell_num}": {"voltage": 0, "temp": 0}})
-
-        # print(cell_data["cell_0"]["voltage"])
-
         # open the port
         ports = serial.tools.list_ports.comports()
         # list of all available ports
@@ -84,12 +78,6 @@ class SerialConnect(object):
             print(self.cell_data)
             time.sleep(2)
 
-    """
-    -----       Serial Parsing Code     -----
-    
-    
-    """
-
     # Get battInfo and parse important information
     def getConnectionStatus(self):
         return self.isConnected
@@ -109,13 +97,11 @@ class SerialConnect(object):
         else:
             ###     PARSE DATA FROM BATTINFO    ###
             split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
-
             battSummary = self.parseCellSummary(split_data[0])
-
             cell_data = split_data[1].split("bmu >")[0]
-
             return [cell_data, battSummary]
 
+    # TODO: Test this
     def parseCellSummary(self, data):
         mainInfo = data.split("*Note Temp is not related to a specific cell number")[0]
         IVBUS = mainInfo.strip().split('\n\n')[0]
@@ -166,7 +152,6 @@ class SerialConnect(object):
     def hvToggle(self):
         return self.sendRequest("hvToggle")
 
-    # sending Max current request
     def setMaxCurrent(self):
         return self.sendRequest("maxChargeCurrent")
 
@@ -175,8 +160,6 @@ class SerialConnect(object):
 
     def StopCharging(self):
         return self.sendRequest("stopCharge")
-
-
 
     def get_port_name(self):
         return self.all_ports

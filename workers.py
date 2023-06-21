@@ -36,7 +36,6 @@ class Worker_UpdateBatteryInfo(QObject):
         else:
             self.log.emit("connection failed!")
 
-
         self.finished.emit()
 
 
@@ -62,8 +61,7 @@ class Worker_UpdateState(QObject):
     def run(self):
         while True:
             self.update_SoC()
-            self.update_Volt()
-            self.update_Current()
+            self.update_Graph()
             sleep(0.1)
 
     def update_SoC(self):
@@ -73,14 +71,9 @@ class Worker_UpdateState(QObject):
         self.SoCprogress.emit(soc)
         self.finished.emit()
 
-    def update_Current(self):
+    def update_Graph(self):
         current = float(self.connector.getCurrent())
         self.currentProgress.emit(current)
-        self.finished.emit()
-
-    def update_Volt(self):
-        voltage = self.connector.getVoltage()
-        self.voltProgress.emit(voltage)
         self.finished.emit()
 
 
