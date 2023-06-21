@@ -3,9 +3,10 @@ from PyQt6.QtCore import QObject, QThread, pyqtSignal
 from serial_parse import SerialConnect
 from charge_cart_GUI import Ui_MainWindow
 import sys
-from numpy import random
+from random import randint
 from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
 from datetime import datetime
+from time import sleep
 
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
@@ -129,12 +130,32 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.setLabel('left', 'Volt')
         self.graphWidget_volt.addLegend()
 
+        dataPntMun = 100
+        self.x = list(range(dataPntMun))  # 50 time points
+        self.y_vol = [0 for _ in range(dataPntMun)]  # 100 data points
+        self.y_cur = [0 for _ in range(dataPntMun)]  # 100 data points
+        self.voltage_line = self.graphWidget_volt.plot(self.x, self.y_vol, pen='r')
+        self.current_line = self.graphWidget_current.plot(self.x, self.y_cur, pen='r')
+
+    def update_graphs(self, voltage, current):
+        self.logging_texbox.appendPlainText("updating graphs")
+        self.x = self.x[1:]
+        self.x.append(self.x[-1] + 1)
+
+        self.y_vol = self.y_vol[1:]  # Remove the first
+        self.y_cur = self.y_cur[1:]  # Remove the first
+        self.y_vol.append(voltage)
+        self.y_cur.append(current)
+
+        self.voltage_line.setData(self.x, self.y_vol)
+        self.current_line.setData(self.x, self.y_cur)
+
     # TODO: Add logic (maybe add an option for input)
     # it is testing block here for now
     def startBalancing(self):
         self.logging_texbox.appendPlainText("start balancing")
-        #self.sio.balancePack()
-        self.volBoxesList[1].setItem(1, 1, QtWidgets.QTableWidgetItem("3")).setBackground(QtGui.QColor(100,100,150))
+        self.sio.balancePack(cell=10, switch="on")
+        # self.update_graphs()
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
@@ -229,14 +250,12 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
-        cells = self.sio.get_battInfo();
+        cells = self.sio.get_battInfo()
         cell_data = cells[0].strip().split("\r\n")
         cellSummary = cells[1]
 
         if cell_data == "error":
             print("ERROR received from getBattInfo")
-
-        self.update_voltage(100)
 
         # populate voltage table
         for BoxesIndex in range(Num_Batch):
@@ -256,7 +275,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_even_val))
                 self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_odd_val))
 
-
         # Update main page
         self.maxVolt_textbox().setText(cellSummary["MaxVoltage"])
         self.minVolt_textbox().setText(cellSummary["MinTemp"])
@@ -265,17 +283,16 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.packCurrent_textbox().setText(cellSummary["IBUS"])
         self.rawVolt_textbox().setText(cellSummary["PackVoltage"])
 
+        # TODO: We might not even need two workers?
+        # use pack voltage and pack current to update graph
+        self.update_graphs(float(cellSummary["PackVoltage"]), float((cellSummary["IBUS"])))
         self.logTimeStamp()
+        self.update_SoC(self.sio.getSoC())
 
 
     def update_SoC(self, percent):
         self.SOC_progressBar.setValue(percent)
         self.logging_texbox.appendPlainText("updating state of charge")
-
-    def update_voltage(self, voltage):
-        self.rawVolt_textbox.setText(str(voltage))
-        #self.graphWidget_volt.append(str(voltage))
-        self.logging_texbox.appendPlainText("updating voltage")
 
     def updateLog(self, log):
         self.logging_texbox.appendPlainText(log)
