@@ -96,6 +96,7 @@ class SerialConnect(object):
 
         else:
             ###     PARSE DATA FROM BATTINFO    ###
+            #print(data)
             split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
             battSummary = self.parseCellSummary(split_data[0])
             cell_data = split_data[1].split("bmu >")[0]
@@ -104,14 +105,21 @@ class SerialConnect(object):
     # TODO: Test this
     def parseCellSummary(self, data):
         mainInfo = data.split("*Note Temp is not related to a specific cell number")[0]
-        IVBUS = mainInfo.strip().split('\n\n')[0]
-        IVBUS_Num = IVBUS.split('\n')[1].split('     ')
+        mainInfo_list = mainInfo.split('\n\n')
+
+        IVBUS = mainInfo_list[0].strip()
+
+        if "PEC Rate" in IVBUS:
+            IVBUS = IVBUS[IVBUS.find('IBUS'):]
+        
+        IVBUS_Num = IVBUS.split('\n')[1].split('\t')
         IBUS = IVBUS_Num[0].strip()
         VBUS = IVBUS_Num[1].strip()
         VBATT = IVBUS_Num[2].strip()
 
-        volANDTEMP = mainInfo.strip().split('\n\n')[1]
-        volANDTEMP_Num = volANDTEMP.split('\n')[1].split('     ')
+
+        volANDTEMP = mainInfo_list[1].strip()
+        volANDTEMP_Num = volANDTEMP.split('\n')[1].split('\t')
         MinVoltage = volANDTEMP_Num[0].strip()
         MaxVoltage = volANDTEMP_Num[1].strip()
         MinTemp = volANDTEMP_Num[2].strip()
@@ -129,8 +137,9 @@ class SerialConnect(object):
                 "PackVoltage": PackVoltage}
 
     def getSoC(self):
-        soc = self.sendRequest("soc")
-        return float(soc)
+        data = self.sendRequest("soc")
+        soc = round(float(data[data.find("Charge") + 7 : data.find("%") - 1]), 2)
+        return soc
 
     def balancePack(self, cell, switch):
         # TODO: ADD AN INPUT BOX FOR CELL
@@ -141,10 +150,10 @@ class SerialConnect(object):
 
     def sendRequest(self, command):
         command = command + "\n"
-        self.sio.write(command.encode())
-        # sio.flush()
+        self.ser.write(command.encode())
+        # ser.flush()
         time.sleep(0.2)  # Wait for response
-        raw_data = self.sio.read(self.sio.inWaiting())
+        raw_data = self.ser.read(self.ser.inWaiting())
         return raw_data.decode()
 
     def setForceChargeMode(self):

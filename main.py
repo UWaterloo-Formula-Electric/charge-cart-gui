@@ -19,6 +19,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # force to show the main page first
         self.Main.setCurrentIndex(0)
         self.SOC_progressBar.setValue(0)
+        self.SOC_progressBar.setMaximum(10000)
 
         # charging state
         self.state = "Charging"
@@ -94,8 +95,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.battWorker.log.connect(self.updateLog)
 
         self.stateWorker.SoCprogress.connect(self.update_SoC)
-        self.stateWorker.currentProgress.connect(self.update_Current)
-        self.stateWorker.voltProgress.connect(self.update_voltage)
+        #self.stateWorker.currentProgress.connect(self.update_Current)
+        #self.stateWorker.voltProgress.connect(self.update_voltage)
 
         # Start thread
         self.thread1.start()
@@ -120,7 +121,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             # start populating data (workers)
             self.updateData()
 
-    #TODO: Update graph
+    #TODO: Update cell labels (Box1)
     def graphSetup(self):
         self.graphWidget_current.setBackground('w')
         self.graphWidget_current.setLabel('left', 'Ampere')
@@ -130,7 +131,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.setLabel('left', 'Volt')
         self.graphWidget_volt.addLegend()
 
-        dataPntMun = 100
+        dataPntMun = 20
         self.x = list(range(dataPntMun))  # 50 time points
         self.y_vol = [0 for _ in range(dataPntMun)]  # 100 data points
         self.y_cur = [0 for _ in range(dataPntMun)]  # 100 data points
@@ -263,25 +264,25 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 even_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2)]
                 odd_data = cell_data[(BoxesIndex * Num_Cell_Per_Batch * 2) + (rowIndex * 2) + 1]
 
-                volt_even_val = even_data.split("\t")[1]
-                volt_odd_val = odd_data.split("\t")[1]
+                volt_even_val = even_data.split("\t")[1][:-3]
+                volt_odd_val = odd_data.split("\t")[1][:-3]
 
                 self.volBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(volt_even_val))
                 self.volBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(volt_odd_val))
 
-                temp_even_val = even_data.split("\t")[2]
-                temp_odd_val = odd_data.split("\t")[2]
+                temp_even_val = even_data.split("\t")[2][:-3]
+                temp_odd_val = odd_data.split("\t")[2][:-3]
 
                 self.tempBoxesList[BoxesIndex * 2].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_even_val))
                 self.tempBoxesList[(BoxesIndex * 2) + 1].setItem(rowIndex, 0, QtWidgets.QTableWidgetItem(temp_odd_val))
 
         # Update main page
-        self.maxVolt_textbox().setText(cellSummary["MaxVoltage"])
-        self.minVolt_textbox().setText(cellSummary["MinTemp"])
-        self.maxTemp_textbox().setText(cellSummary["MaxTemp"])
-        self.minTemp_textbox().setText(cellSummary["MinTemp"])
-        self.packCurrent_textbox().setText(cellSummary["IBUS"])
-        self.rawVolt_textbox().setText(cellSummary["PackVoltage"])
+        self.maxVolt_textbox.setText(cellSummary["MaxVoltage"])
+        self.minVolt_textbox.setText(cellSummary["MinTemp"])
+        self.maxTemp_textbox.setText(cellSummary["MaxTemp"])
+        self.minTemp_textbox.setText(cellSummary["MinTemp"])
+        self.packCurrent_textbox.setText(cellSummary["IBUS"])
+        self.rawVolt_textbox.setText(cellSummary["PackVoltage"])
 
         # TODO: We might not even need two workers?
         # use pack voltage and pack current to update graph
@@ -291,7 +292,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
 
     def update_SoC(self, percent):
-        self.SOC_progressBar.setValue(percent)
+        self.SOC_progressBar.setValue(int(percent * 100))
+        self.SOC_progressBar.setFormat("%.02f %%" % percent)
         self.logging_texbox.appendPlainText("updating state of charge")
 
     def updateLog(self, log):

@@ -60,8 +60,8 @@ class Worker_UpdateState(QObject):
 
     def run(self):
         while True:
-            self.update_SoC()
-            self.update_Graph()
+            #self.update_SoC()
+            #self.update_Graph()
             sleep(0.1)
 
     def update_SoC(self):
