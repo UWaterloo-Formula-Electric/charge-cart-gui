@@ -53,4 +53,5 @@ charge_cart.ui
 Examples/DemoGeneratedGUI.py
 Examples/ThreadExample.py
 Examples/multi_threading.py
+charge_cart_GUI_testing.py
 
