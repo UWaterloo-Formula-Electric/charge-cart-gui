@@ -33,7 +33,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
-        self.rescan_pb.click.connect(self.portSetup)
+        self.rescan_pb.clicked.connect(self.portSetup)
 
         self.volBoxesList = []
         self.volBoxesList.append(self.box1_odd)
@@ -105,8 +105,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.disconnectPort()
 
         selectedPort = self.portDropDown.currentText()
-        isConnected = self.logging_texbox.appendPlainText("connecting to port: {selectedPort}")
-        self.sio.connectPort(selectedPort)
+        self.logging_texbox.appendPlainText(f"connecting to port: {selectedPort}")
+        isConnected = self.sio.connectPort(selectedPort)
 
         if not isConnected:
             self.logging_texbox.appendPlainText("connection failed")
