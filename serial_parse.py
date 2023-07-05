@@ -142,8 +142,8 @@ class SerialConnect(object):
         return soc
 
     def balancePack(self, cell, switch):
-        # TODO: ADD AN INPUT BOX FOR CELL
-        "balanceCell <cell number> <on|off>:\r\n set the state of the balance ressistor for a specific cell\r\n"
+        # TODO: Do we need to stop?
+        " balanceCell <cell number> <on|off>:\r\n set the state of the balance resistor for a specific cell\r\n"
         if cell > 70 or cell < 0:
             return "invalid input"
         return self.sendRequest("balanceCell " + cell + " " + switch)

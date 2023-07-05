@@ -1,12 +1,10 @@
-from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtCore import QObject, QThread, pyqtSignal
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import QThread
 from serial_parse import SerialConnect
 from charge_cart_GUI import Ui_MainWindow
 import sys
-from random import randint
-from workers import Worker_UpdateState, Worker_UpdateBatteryInfo
+from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
-from time import sleep
 
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
@@ -30,8 +28,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.isConnected = True
 
         # connect all the buttons
-        # self.connect_pb.clicked.connect(self.updateData)
-        # self.connect_pb.clicked.connect(self.updateBatteryInfo)
         self.connect_pb.clicked.connect(self.connectPort)
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
@@ -68,39 +64,23 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # ================================================
         # Create QThread and Worker objects
         self.thread1 = QThread()
-        self.thread2 = QThread()
 
         # Create a worker object
         self.battWorker = Worker_UpdateBatteryInfo(self.sio)
-        self.stateWorker = Worker_UpdateState(self.sio)
 
         # Move worker to the thread
         self.battWorker.moveToThread(self.thread1)
-        self.stateWorker.moveToThread(self.thread2)
 
         # Connect signals and slots
         self.thread1.started.connect(self.battWorker.run)
-        self.thread2.started.connect(self.stateWorker.run)
-
         self.battWorker.finished.connect(self.thread1.quit)
         self.battWorker.finished.connect(self.battWorker.deleteLater)
-        self.stateWorker.finished.connect(self.thread2.quit)
-        self.stateWorker.finished.connect(self.stateWorker.deleteLater)
-
-        # self.worker.progress1.connect(self.updateBatteryInfo)
         self.thread1.finished.connect(self.thread1.deleteLater)
-        self.thread2.finished.connect(self.thread2.deleteLater)
-
         self.battWorker.batteryInfo.connect(self.updateBatteryInfo)
         self.battWorker.log.connect(self.updateLog)
 
-        self.stateWorker.SoCprogress.connect(self.update_SoC)
-        #self.stateWorker.currentProgress.connect(self.update_Current)
-        #self.stateWorker.voltProgress.connect(self.update_voltage)
-
         # Start thread
         self.thread1.start()
-        self.thread2.start()
 
 
     # all the functions being called
@@ -121,7 +101,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             # start populating data (workers)
             self.updateData()
 
-    #TODO: Update cell labels (Box1)
     def graphSetup(self):
         self.graphWidget_current.setBackground('w')
         self.graphWidget_current.setLabel('left', 'Ampere')
@@ -132,9 +111,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.graphWidget_volt.addLegend()
 
         dataPntMun = 20
-        self.x = list(range(dataPntMun))  # 50 time points
-        self.y_vol = [0 for _ in range(dataPntMun)]  # 100 data points
-        self.y_cur = [0 for _ in range(dataPntMun)]  # 100 data points
+        self.x = list(range(dataPntMun))
+        self.y_vol = [0 for _ in range(dataPntMun)]
+        self.y_cur = [0 for _ in range(dataPntMun)]
         self.voltage_line = self.graphWidget_volt.plot(self.x, self.y_vol, pen='r')
         self.current_line = self.graphWidget_current.plot(self.x, self.y_cur, pen='r')
 
@@ -151,12 +130,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.voltage_line.setData(self.x, self.y_vol)
         self.current_line.setData(self.x, self.y_cur)
 
-    # TODO: Add logic (maybe add an option for input)
-    # it is testing block here for now
     def startBalancing(self):
         self.logging_texbox.appendPlainText("start balancing")
         self.sio.balancePack(cell=10, switch="on")
-        # self.update_graphs()
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
@@ -247,7 +223,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         else:
                 self.log("Not Charging...")
 
-
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
@@ -284,12 +259,10 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.packCurrent_textbox.setText(cellSummary["IBUS"])
         self.rawVolt_textbox.setText(cellSummary["PackVoltage"])
 
-        # TODO: We might not even need two workers?
         # use pack voltage and pack current to update graph
         self.update_graphs(float(cellSummary["PackVoltage"]), float((cellSummary["IBUS"])))
         self.logTimeStamp()
         self.update_SoC(self.sio.getSoC())
-
 
     def update_SoC(self, percent):
         self.SOC_progressBar.setValue(int(percent * 100))
