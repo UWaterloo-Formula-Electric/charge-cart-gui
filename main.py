@@ -25,7 +25,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setCurrent_input.setText("5")
 
         # Make sure this is false when not connect
-        self.isConnected = True
+        self.isConnected = False
+        self.ports = []
+        self.portSetup()
 
         # connect all the buttons
         self.connect_pb.clicked.connect(self.connectPort)
@@ -82,21 +84,26 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # Start thread
         self.thread1.start()
 
-
     # all the functions being called
     def adjustCurrent(self):
         self.logging_texbox.appendPlainText("current set")
 
-    def connectPort(self):
-        self.logging_texbox.appendPlainText("connecting to STLink...")
-        # wait until debug serial connection
-        port_isFound = self.sio.port_setup()
+    def portSetup(self):
+        ports = self.sio.port_setup()
+        if len(ports) != 0:
+            self.portDropDown.clear()
+            for port in ports:
+                self.portDropDown.addItems(port)
 
-        if not port_isFound:
-            self.logging_texbox.appendPlainText("port not found :(")
+    def connectPort(self):
+        selectedPort = self.portDropDown.currentText()
+        isConnected = self.logging_texbox.appendPlainText("connecting to port: ", selectedPort)
+        self.sio.connectPort(selectedPort)
+
+        if not isConnected:
+            self.logging_texbox.appendPlainText("connection failed")
         else:
-            self.logging_texbox.appendPlainText("port found :)")
-            self.logging_texbox.appendPlainText("STLink connected")
+            self.logging_texbox.appendPlainText("connection success")
             self.isConnected = True
             # start populating data (workers)
             self.updateData()

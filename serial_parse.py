@@ -3,7 +3,6 @@ import io
 import serial.tools.list_ports
 from serial import Serial
 import matplotlib.pyplot as plt
-from document.CommandOutput import BatteryInfoString
 
 
 class SerialConnect(object):
@@ -19,48 +18,36 @@ class SerialConnect(object):
         self.isTesting = True
         self.isConnected = False
 
-    def port_setup(self):
-        # Return bool True/False
-        # open the port
-        ports = serial.tools.list_ports.comports()
-        # list of all available ports
+    def port_setup(self):  # Return ports list
+        # open the port and list of all available ports
+        try:
+            ports = serial.tools.list_ports.comports()
+            for port, desc, hwid in sorted(ports):
+                # print("{}: {}".format(port, desc))    # Uncomment to see all ports found
+                self.all_ports.append("{}: {}".format(port, desc))
+            return self.all_ports
+        except:
+            print("something was wrong when setting up port")
+            return False
 
-        message = ""
+    def connectPort(self, port):  # Return ports list
+        try:
+            p = port.lower()
+            serial_port = p.split(':')[0]
+            message = f"Found {serial_port}"
+            self.isConnected = True
+            print(message)
 
-        for port, desc, hwid in sorted(ports):
-            # print("{}: {}".format(port, desc))    # Uncomment to see all ports found
-            self.all_ports.append("{}: {}".format(port, desc))
+            # Setup Serial Connection
+            self.ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE,
+                              bytesize=serial.EIGHTBITS,
+                              timeout=0)
 
-        ### connect to the port
-        serial_port = ""
-        port_found = False
-
-        for p in self.all_ports:
-            curr = p.lower()
-            # Always pass for now, add dropdown in GUI for selecting COM port later
-            if True:  # or self.STLINK_NAME.lower() in curr:
-                serial_port = p.split(':')[0]
-                port_found = True
-                message = f"Found STLink on {serial_port}"
-                self.isConnected=True
-                print(message)
-
-                # Setup Serial Connection
-                self.ser = Serial(serial_port, self.BAUD_RATE, stopbits=1, parity=serial.PARITY_NONE,
-                                  bytesize=serial.EIGHTBITS,
-                                  timeout=0)
-                # Not so sure what this does
-                self.sio = io.TextIOWrapper(io.BufferedRWPair(self.ser, self.ser))
-
-        if not port_found:
-            print("STLink not found! Ensure it is plugged in")
-            # insert a message to the log box: not connected
-
-            # not too sure what exit does here
-            # exit()
-            return port_found
-
-        return port_found
+            self.sio = io.TextIOWrapper(io.BufferedRWPair(self.ser, self.ser))
+            return True
+        except:
+            print("something was wrong when connecting port")
+            return False
 
     def execute(self):
         fig = plt.figure()
@@ -96,7 +83,7 @@ class SerialConnect(object):
 
         else:
             ###     PARSE DATA FROM BATTINFO    ###
-            #print(data)
+            # print(data)
             split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
             battSummary = self.parseCellSummary(split_data[0])
             cell_data = split_data[1].split("bmu >")[0]
@@ -111,12 +98,11 @@ class SerialConnect(object):
 
         if "PEC Rate" in IVBUS:
             IVBUS = IVBUS[IVBUS.find('IBUS'):]
-        
+
         IVBUS_Num = IVBUS.split('\n')[1].split('\t')
         IBUS = IVBUS_Num[0].strip()
         VBUS = IVBUS_Num[1].strip()
         VBATT = IVBUS_Num[2].strip()
-
 
         volANDTEMP = mainInfo_list[1].strip()
         volANDTEMP_Num = volANDTEMP.split('\n')[1].split('\t')
@@ -126,11 +112,10 @@ class SerialConnect(object):
         MaxTemp = volANDTEMP_Num[3].strip()
         PackVoltage = volANDTEMP_Num[4].strip()
 
-
         return {"IBUS": IBUS,
                 "VBUS": VBUS,
                 "VBATT": VBATT,
-                "MinVoltage":MinVoltage,
+                "MinVoltage": MinVoltage,
                 "MaxVoltage": MaxVoltage,
                 "MinTemp": MinTemp,
                 "MaxTemp": MaxTemp,
@@ -138,7 +123,7 @@ class SerialConnect(object):
 
     def getSoC(self):
         data = self.sendRequest("soc")
-        soc = round(float(data[data.find("Charge") + 7 : data.find("%") - 1]), 2)
+        soc = round(float(data[data.find("Charge") + 7: data.find("%") - 1]), 2)
         return soc
 
     def balancePack(self, cell, switch):

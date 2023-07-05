@@ -3,10 +3,6 @@ from time import sleep
 
 
 class Worker_UpdateBatteryInfo(QObject):
-    """
-        Update only battery Info
-    """
-
     finished = pyqtSignal()
     progress1 = pyqtSignal(int)
 
@@ -37,4 +33,3 @@ class Worker_UpdateBatteryInfo(QObject):
             self.log.emit("connection failed!")
 
         self.finished.emit()
-
