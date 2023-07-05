@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
         self.setCurrent_pb.setFont(font)
         self.setCurrent_pb.setObjectName("setCurrent_pb")
         self.setCurrent_input = QtWidgets.QTextEdit(parent=self.frame)
-        self.setCurrent_input.setGeometry(QtCore.QRect(105, 10, 121, 21))
+        self.setCurrent_input.setGeometry(QtCore.QRect(110, 10, 121, 21))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setKerning(True)
@@ -231,7 +231,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_3.setObjectName("frame_3")
         self.balancePack_label = QtWidgets.QLabel(parent=self.frame_3)
-        self.balancePack_label.setGeometry(QtCore.QRect(20, 10, 81, 16))
+        self.balancePack_label.setGeometry(QtCore.QRect(10, 10, 81, 16))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -239,7 +239,7 @@ class Ui_MainWindow(object):
         self.balancePack_label.setFont(font)
         self.balancePack_label.setObjectName("balancePack_label")
         self.balancePack_textbox = QtWidgets.QTextEdit(parent=self.frame_3)
-        self.balancePack_textbox.setGeometry(QtCore.QRect(90, 8, 141, 21))
+        self.balancePack_textbox.setGeometry(QtCore.QRect(80, 8, 141, 21))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(2)
@@ -291,13 +291,21 @@ class Ui_MainWindow(object):
         self.frame_9.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_9.setObjectName("frame_9")
         self.connect_pb = QtWidgets.QPushButton(parent=self.frame_9)
-        self.connect_pb.setGeometry(QtCore.QRect(4, 40, 141, 32))
+        self.connect_pb.setGeometry(QtCore.QRect(4, 40, 113, 32))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.connect_pb.setFont(font)
         self.connect_pb.setObjectName("connect_pb")
+        self.rescan_pb = QtWidgets.QPushButton(parent=self.frame_9)
+        self.rescan_pb.setGeometry(QtCore.QRect(123, 40, 113, 32))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        font.setWeight(75)
+        self.rescan_pb.setFont(font)
+        self.rescan_pb.setObjectName("rescan_pb")
         self.frame_9.raise_()
         self.frame_2.raise_()
         self.graphWidget_current.raise_()
@@ -978,7 +986,7 @@ class Ui_MainWindow(object):
         self.frame_29.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame_29.setObjectName("frame_29")
         self.box1_label_4 = QtWidgets.QLabel(parent=self.tempTab)
-        self.box1_label_4.setGeometry(QtCore.QRect(160, 52, 41, 21))
+        self.box1_label_4.setGeometry(QtCore.QRect(160, 51, 41, 21))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -1079,13 +1087,13 @@ class Ui_MainWindow(object):
         self.maxVolt_textbox.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:18pt; font-weight:600; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:23pt; font-weight:400;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:23pt;\"><br /></p></body></html>"))
         self.minVolt_textbox.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:18pt; font-weight:600; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:400;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.minVolt_label.setText(_translate("MainWindow", "Min cell voltage"))
         self.maxVolt_label.setText(_translate("MainWindow", "Max cell voltage"))
         self.maxTemp_label.setText(_translate("MainWindow", "Max cell temp"))
@@ -1111,6 +1119,7 @@ class Ui_MainWindow(object):
         self.portDropDown.setItemText(0, _translate("MainWindow", "No port found"))
         self.maxVolt_label_2.setText(_translate("MainWindow", "Select Port:"))
         self.connect_pb.setText(_translate("MainWindow", "Connect!"))
+        self.rescan_pb.setText(_translate("MainWindow", "Re-Scan"))
         self.Main.setTabText(self.Main.indexOf(self.mainTab), _translate("MainWindow", "Main"))
         item = self.box1_even.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "C14"))
@@ -1463,11 +1472,3 @@ class Ui_MainWindow(object):
 from pyqtgraph import PlotWidget
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

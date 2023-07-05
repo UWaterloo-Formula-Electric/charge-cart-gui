@@ -33,6 +33,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.setCurrent_pb.clicked.connect(self.adjustCurrent)
         self.startBalancing_pb.clicked.connect(self.startBalancing)
         self.startCharging_pb.clicked.connect(self.chargingStateMachine)
+        self.rescan_pb.click.connect(self.portSetup)
 
         self.volBoxesList = []
         self.volBoxesList.append(self.box1_odd)
@@ -88,15 +89,23 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.logging_texbox.appendPlainText("current set")
 
     def portSetup(self):
+        # TODO: maybe add an option to find a port again?
         ports = self.sio.port_setup()
         if len(ports) != 0:
             self.portDropDown.clear()
-            for port in ports:
-                self.portDropDown.addItems(port)
+            self.portDropDown.addItems(ports)
+        else:
+            print("no port found")
+
+        if self.isConnected:
+            self.rescan_pb.setDisabled(True);
 
     def connectPort(self):
+        if self.isConnected:
+            self.disconnectPort()
+
         selectedPort = self.portDropDown.currentText()
-        isConnected = self.logging_texbox.appendPlainText("connecting to port: ", selectedPort)
+        isConnected = self.logging_texbox.appendPlainText("connecting to port: {selectedPort}")
         self.sio.connectPort(selectedPort)
 
         if not isConnected:
@@ -104,8 +113,15 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         else:
             self.logging_texbox.appendPlainText("connection success")
             self.isConnected = True
+            self.connect_pb.setText("Disconnect")
             # start populating data (workers)
             self.updateData()
+
+    def disconnectPort(self):
+        self.sio.disconnectPort()
+        self.isConnected = False
+        self.connect_pb.setText("Connect!")
+
 
     def graphSetup(self):
         self.graphWidget_current.setBackground('w')

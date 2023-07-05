@@ -44,10 +44,15 @@ class SerialConnect(object):
                               timeout=0)
 
             self.sio = io.TextIOWrapper(io.BufferedRWPair(self.ser, self.ser))
+
             return True
         except:
             print("something was wrong when connecting port")
             return False
+
+    def disconnectPort(self):  # Return ports list
+        self.ser.close()
+        self.isConnected = False
 
     def execute(self):
         fig = plt.figure()
