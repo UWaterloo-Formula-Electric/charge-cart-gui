@@ -26,7 +26,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # Make sure this is false when not connect
         self.isConnected = False
-        self.ports = []
         self.portSetup()
 
         # connect all the buttons
