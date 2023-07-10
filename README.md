@@ -15,7 +15,11 @@ We need to manually add a construct, so it is not static class and therefore can
 # Warning
 Following is the command to get python file from .ui file
 
+#### Mac
 `python3 -m PyQt6.uic.pyuic -o charge_cart_GUI_testing.py -x charge_cart_GUI.ui`
+
+#### Windows
+pyuic6 -x charge_cart_GUI.ui -o charge_cart_GUI_testing.py
 
 The command will overwrite all the current code in charge_cart_GUI.py 
 so don't touch the file except for adding a constructor and git rid of generated "main" function

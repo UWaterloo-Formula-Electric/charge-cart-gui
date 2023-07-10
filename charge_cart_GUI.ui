@@ -37,17 +37,98 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>15</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <pointsize>17</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTextEdit {
+     <string notr="true">QFrame, QLabel, QToolTip {
+    border: 1px solid  #FFD700;
+    border-radius: 4px;
+    padding: 1px;
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px solid #C2C7CB;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; /* move to the right by 5px */
+}
+
+QTabBar::tab {
+    background:  rgba(33, 37, 43, 180);
+    border: 2px solid #C4C4C3;
+    border-bottom-color: #C2C7CB; /* same as the pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 2px;
+}
+
+QTabBar::tab:selected {
+    border-color: #9B9B9B;
+    border-bottom-color: #C2C7CB; /* same as pane color */
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px; /* make non-selected tabs look smaller */
+}
+
+QTextEdit {
 	border: 1px solid; 
 	border-radius:5px; 
 	background-color: palette(base);
-}</string>
+}
+
+QPushButton {
+    background-color: #FFD700;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: beige;
+    font: 14px;
+    padding: 6px;
+}
+QProgressBar {
+        border: 2px solid rgba(33, 37, 43, 180);
+        border-radius: 5px;
+        text-align: center;
+        background-color: rgba(33, 37, 43, 180);
+        color: black;
+    }
+ QProgressBar::chunk {
+        background-color: #FFD700;
+    }
+QTextEdit{
+    font-size: 8.25pt; 
+    font-weight: 400; 
+    font-style: normal;
+    background-color:  palette(base);
+}
+
+
+QHeaderView::section {
+    background-color:  #FFD700;
+    padding: 4px;
+    font-size: 14pt;
+    border-style: none;
+	border-radius:5px; 
+    border-bottom: 1px solid #fffff8;
+    border-right: 1px solid #fffff8;
+}
+
+QHeaderView::section:horizontal
+{
+    border-top: 1px solid #fffff8;
+}
+
+QHeaderView::section:vertical
+{
+    border-left: 1px solid #fffff8;
+}
+</string>
     </property>
     <property name="tabShape">
      <enum>QTabWidget::Rounded</enum>
@@ -89,9 +170,9 @@
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>30</y>
-        <width>60</width>
-        <height>16</height>
+        <y>17</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -109,9 +190,9 @@
       <property name="geometry">
        <rect>
         <x>560</x>
-        <y>30</y>
-        <width>60</width>
-        <height>16</height>
+        <y>17</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -131,7 +212,7 @@
         <x>10</x>
         <y>520</y>
         <width>811</width>
-        <height>141</height>
+        <height>131</height>
        </rect>
       </property>
       <property name="font">
@@ -157,14 +238,17 @@
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>390</y>
-        <width>120</width>
+        <y>395</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
@@ -174,25 +258,28 @@
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:18pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:23pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:23pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textInteractionFlags">
-       <set>Qt::TextSelectableByMouse</set>
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QTextEdit" name="minVolt_textbox">
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>460</y>
-        <width>120</width>
+        <y>465</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
@@ -202,44 +289,59 @@ p, li { white-space: pre-wrap; }
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:18pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QTextEdit" name="maxTemp_textbox">
       <property name="geometry">
        <rect>
         <x>460</x>
-        <y>390</y>
-        <width>120</width>
+        <y>395</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QTextEdit" name="minTemp_textbox">
       <property name="geometry">
        <rect>
         <x>460</x>
-        <y>460</y>
-        <width>120</width>
+        <y>465</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QLabel" name="minVolt_label">
@@ -248,14 +350,14 @@ p, li { white-space: pre-wrap; }
         <x>310</x>
         <y>440</y>
         <width>120</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -268,14 +370,14 @@ p, li { white-space: pre-wrap; }
         <x>310</x>
         <y>370</y>
         <width>120</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -288,14 +390,14 @@ p, li { white-space: pre-wrap; }
         <x>460</x>
         <y>370</y>
         <width>120</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -308,14 +410,14 @@ p, li { white-space: pre-wrap; }
         <x>460</x>
         <y>440</y>
         <width>120</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -326,18 +428,24 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>600</x>
-        <y>390</y>
-        <width>120</width>
+        <y>395</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QLabel" name="packCurrent_label">
@@ -346,14 +454,14 @@ p, li { white-space: pre-wrap; }
         <x>600</x>
         <y>370</y>
         <width>120</width>
-        <height>16</height>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -364,18 +472,24 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>600</x>
-        <y>460</y>
-        <width>120</width>
+        <y>465</y>
+        <width>131</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>18</pointsize>
+        <pointsize>8</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
       </property>
      </widget>
      <widget class="QLabel" name="rawVolt_label">
@@ -383,15 +497,15 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>600</x>
         <y>440</y>
-        <width>120</width>
-        <height>16</height>
+        <width>121</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>12</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -402,10 +516,13 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>310</y>
+        <y>320</y>
         <width>531</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="value">
        <number>24</number>
@@ -415,16 +532,16 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>300</y>
-        <width>121</width>
-        <height>16</height>
+        <y>280</y>
+        <width>161</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -437,7 +554,7 @@ p, li { white-space: pre-wrap; }
         <x>10</x>
         <y>140</y>
         <width>251</width>
-        <height>121</height>
+        <height>91</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -456,17 +573,18 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="startCharging_pb">
        <property name="geometry">
         <rect>
-         <x>4</x>
-         <y>75</y>
-         <width>141</width>
+         <x>120</x>
+         <y>40</y>
+         <width>121</width>
          <height>32</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -477,16 +595,17 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>4</x>
-         <y>35</y>
-         <width>125</width>
+         <y>40</y>
+         <width>111</width>
          <height>32</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -496,17 +615,18 @@ p, li { white-space: pre-wrap; }
       <widget class="QTextEdit" name="setCurrent_input">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>120</x>
          <y>10</y>
-         <width>121</width>
+         <width>111</width>
          <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <stylestrategy>PreferDefault</stylestrategy>
-         <kerning>true</kerning>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -519,8 +639,8 @@ p, li { white-space: pre-wrap; }
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:15pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:15px;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'.AppleSystemUIFont'; font-size:8pt;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
       <widget class="QLabel" name="setCurrent_label">
@@ -528,15 +648,15 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>91</width>
-         <height>16</height>
+         <width>100</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -567,9 +687,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>280</y>
+        <y>248</y>
         <width>251</width>
-        <height>71</height>
+        <height>81</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -586,15 +706,15 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>81</width>
-         <height>16</height>
+         <width>72</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -604,9 +724,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QTextEdit" name="balancePack_textbox">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>8</y>
-         <width>141</width>
+         <x>90</x>
+         <y>10</y>
+         <width>111</width>
          <height>21</height>
         </rect>
        </property>
@@ -616,12 +736,16 @@ p, li { white-space: pre-wrap; }
          <verstretch>2</verstretch>
         </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
-        <string notr="true">QTextEdit {
-	border: 1px solid; 
-	border-radius:5px; 
-	background-color: palette(base);
-}</string>
+        <string notr="true"/>
        </property>
        <property name="frameShadow">
         <enum>QFrame::Sunken</enum>
@@ -636,8 +760,8 @@ p, li { white-space: pre-wrap; }
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:15pt;&quot;&gt;Cell Number&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cell Number&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textInteractionFlags">
         <set>Qt::TextEditorInteraction</set>
@@ -647,16 +771,17 @@ p, li { white-space: pre-wrap; }
        <property name="geometry">
         <rect>
          <x>4</x>
-         <y>33</y>
-         <width>141</width>
-         <height>32</height>
+         <y>40</y>
+         <width>131</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -670,17 +795,27 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="portDropDown">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>45</y>
-        <width>141</width>
-        <height>30</height>
+        <x>120</x>
+        <y>50</y>
+        <width>131</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <pointsize>10</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+}
+
+</string>
       </property>
       <item>
        <property name="text">
@@ -693,15 +828,15 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>20</x>
         <y>50</y>
-        <width>120</width>
-        <height>16</height>
+        <width>95</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
@@ -733,15 +868,16 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>4</x>
          <y>40</y>
-         <width>113</width>
+         <width>101</width>
          <height>32</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -753,15 +889,16 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>123</x>
          <y>40</y>
-         <width>113</width>
+         <width>101</width>
          <height>32</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -805,7 +942,7 @@ p, li { white-space: pre-wrap; }
         <x>83</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -866,7 +1003,7 @@ p, li { white-space: pre-wrap; }
         <x>180</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -927,7 +1064,7 @@ p, li { white-space: pre-wrap; }
         <x>343</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -988,7 +1125,7 @@ p, li { white-space: pre-wrap; }
         <x>440</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1049,7 +1186,7 @@ p, li { white-space: pre-wrap; }
         <x>700</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1110,7 +1247,7 @@ p, li { white-space: pre-wrap; }
         <x>603</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1171,7 +1308,7 @@ p, li { white-space: pre-wrap; }
         <x>453</x>
         <y>380</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1232,7 +1369,7 @@ p, li { white-space: pre-wrap; }
         <x>550</x>
         <y>380</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1292,13 +1429,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>420</x>
         <y>52</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -1312,13 +1449,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>680</x>
         <y>52</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -1332,13 +1469,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>270</x>
         <y>355</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -1352,13 +1489,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>530</x>
         <y>355</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -1392,13 +1529,13 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>100</x>
          <y>6</y>
-         <width>41</width>
+         <width>61</width>
          <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>15</pointsize>
+         <pointsize>12</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -1461,7 +1598,7 @@ p, li { white-space: pre-wrap; }
          <x>120</x>
          <y>30</y>
          <width>99</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="font">
@@ -1522,7 +1659,7 @@ p, li { white-space: pre-wrap; }
          <x>23</x>
          <y>30</y>
          <width>99</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="font">
@@ -1598,9 +1735,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>15</y>
-        <width>131</width>
-        <height>21</height>
+        <y>10</y>
+        <width>121</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -1643,7 +1780,7 @@ p, li { white-space: pre-wrap; }
         <x>343</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1704,7 +1841,7 @@ p, li { white-space: pre-wrap; }
         <x>453</x>
         <y>380</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1765,7 +1902,7 @@ p, li { white-space: pre-wrap; }
         <x>180</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -1841,7 +1978,7 @@ p, li { white-space: pre-wrap; }
          <x>120</x>
          <y>30</y>
          <width>99</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="font">
@@ -1902,7 +2039,7 @@ p, li { white-space: pre-wrap; }
          <x>23</x>
          <y>30</y>
          <width>99</width>
-         <height>212</height>
+         <height>215</height>
         </rect>
        </property>
        <property name="maximumSize">
@@ -1979,7 +2116,7 @@ p, li { white-space: pre-wrap; }
         <x>550</x>
         <y>380</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -2039,13 +2176,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>680</x>
         <y>52</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -2060,7 +2197,7 @@ p, li { white-space: pre-wrap; }
         <x>603</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -2136,13 +2273,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>420</x>
         <y>52</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -2178,7 +2315,7 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -2193,7 +2330,7 @@ p, li { white-space: pre-wrap; }
         <x>83</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -2254,7 +2391,7 @@ p, li { white-space: pre-wrap; }
         <x>700</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -2320,7 +2457,7 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -2366,13 +2503,13 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>160</x>
         <y>51</y>
-        <width>41</width>
+        <width>61</width>
         <height>21</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>15</pointsize>
+        <pointsize>12</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -2387,7 +2524,7 @@ p, li { white-space: pre-wrap; }
         <x>440</x>
         <y>75</y>
         <width>99</width>
-        <height>212</height>
+        <height>215</height>
        </rect>
       </property>
       <property name="font">
@@ -2446,9 +2583,9 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>15</y>
-        <width>121</width>
-        <height>21</height>
+        <y>10</y>
+        <width>171</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="font">
@@ -2490,7 +2627,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>941</width>
-     <height>37</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
