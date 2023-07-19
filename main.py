@@ -6,6 +6,13 @@ import sys
 from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
 
+# TODO: logging font smaller
+# TODO: logging time stamp [yyyy-mm-dd hh:mm:ss] message
+# TODO: voltage and temp  font smaller
+# TODO: disconnect not working
+# TODO: balance cells: hard-coded
+
+
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
     def  __init__(self):
@@ -170,27 +177,32 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         if self.state == "Pause":
             self.log("Charging...")
 
+            # TODO: Figure out the returned message
             state = 0
             # a. setForceChargeMode
             if state == 0:
                 expectedMessage = "Working"
                 response = self.sio.setForceChargeMode()
                 checkResponse(expectedMessage, response, state)
+
             # b. canStartCharger
             if state == 1:
                 expectedMessage = "Working"
                 response = self.sio.canStartCharger()
                 checkResponse(expectedMessage, response, state)
+
             # c. hvToggle
             if state == 2:
                 expectedMessage = "Working"
-                response = self.sio.canStartCharger()
+                response = self.sio.hvToggle()
                 checkResponse(expectedMessage, response, state)
+
             # d. setMaxCharge
             if state == 3:
                 expectedMessage = "Working"
                 response = self.sio.setMaxCurrent()
                 checkResponse(expectedMessage, response, state)
+
             # e. startCharge
             if state == 4:
                 expectedMessage = "Working"
