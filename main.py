@@ -93,10 +93,10 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
     # all the functions being called
     def adjustCurrent(self):
-        self.logging_texbox.appendPlainText("current set")
+        self.log("Setting current")
 
     def portSetup(self):
-        # TODO: maybe add an option to find a port again?
+        # TODO: Fix duoplication
         ports = self.sio.port_setup()
         if len(ports) != 0:
             self.portDropDown.clear()
@@ -112,13 +112,13 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.disconnectPort()
 
         selectedPort = self.portDropDown.currentText()
-        self.logging_texbox.appendPlainText(f"connecting to port: {selectedPort}")
+        self.log(f"Connecting to port: {selectedPort}")
         isConnected = self.sio.connectPort(selectedPort)
 
         if not isConnected:
-            self.logging_texbox.appendPlainText("connection failed")
+            self.log("Connection failed")
         else:
-            self.logging_texbox.appendPlainText("connection success")
+            self.log("Connection success")
             self.isConnected = True
             self.connect_pb.setText("Disconnect")
             # start populating data (workers)
@@ -147,7 +147,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.current_line = self.graphWidget_current.plot(self.x, self.y_cur, pen='r')
 
     def update_graphs(self, voltage, current):
-        self.logging_texbox.appendPlainText("updating graphs")
+        self.log("updating graphs")
         self.x = self.x[1:]
         self.x.append(self.x[-1] + 1)
 
@@ -160,7 +160,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.current_line.setData(self.x, self.y_cur)
 
     def startBalancing(self):
-        self.logging_texbox.appendPlainText("start balancing")
+        self.log("Start balancing")
         self.sio.balancePack(cell=10, switch="on")
 
     # TODO: See the document charging procedure
@@ -295,24 +295,20 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # use pack voltage and pack current to update graph
         self.update_graphs(float(cellSummary["PackVoltage"]), float((cellSummary["IBUS"])))
-        self.logTimeStamp()
         self.update_SoC(self.sio.getSoC())
 
     def update_SoC(self, percent):
         self.SOC_progressBar.setValue(int(percent * 100))
         self.SOC_progressBar.setFormat("%.02f %%" % percent)
-        self.logging_texbox.appendPlainText("updating state of charge")
+        self.log("Updating state of charge")
 
     def updateLog(self, log):
         self.logging_texbox.appendPlainText(log)
 
     def log(self, message):
-        self.logging_texbox.appendPlainText(str(message))
-
-    def logTimeStamp(self):
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        self.log("Timestamp-" + current_time)
+        timestamp = "[{}]".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        log_msg = "{} {}".format(timestamp, str(message))
+        self.logging_texbox.appendPlainText(log_msg)
 
 
 
