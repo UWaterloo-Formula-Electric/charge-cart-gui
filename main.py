@@ -7,11 +7,9 @@ from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
 
 # TODO: logging font smaller
-# TODO: logging time stamp [yyyy-mm-dd hh:mm:ss] message
 # TODO: voltage and temp  font smaller
 # TODO: disconnect not working
 # TODO: balance cells: hard-coded
-
 
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
@@ -309,6 +307,8 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         timestamp = "[{}]".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         log_msg = "{} {}".format(timestamp, str(message))
         self.logging_texbox.appendPlainText(log_msg)
+        self.logging_texbox.verticalScrollBar().setValue(self.logging_texbox.verticalScrollBar().maximum())
+
 
 
 
