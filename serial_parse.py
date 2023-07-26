@@ -20,6 +20,7 @@ class SerialConnect(object):
 
     def port_setup(self):  # Return ports list
         # open the port and list of all available ports
+        self.all_ports = []
         try:
             ports = serial.tools.list_ports.comports()
             for port, desc, hwid in sorted(ports):
@@ -47,12 +48,13 @@ class SerialConnect(object):
 
             return True
         except:
-            print("something was wrong when connecting port")
+            print("Something was wrong when connecting port")
             return False
 
-    def disconnectPort(self):  # Return ports list
-        self.ser.close()
-        self.isConnected = False
+    def disconnectPort(self):
+        if self.ser.isOpen():
+            self.ser.close()
+            self.isConnected = False
 
     def execute(self):
         fig = plt.figure()
@@ -94,7 +96,6 @@ class SerialConnect(object):
             cell_data = split_data[1].split("bmu >")[0]
             return [cell_data, battSummary]
 
-    # TODO: Test this
     def parseCellSummary(self, data):
         mainInfo = data.split("*Note Temp is not related to a specific cell number")[0]
         mainInfo_list = mainInfo.split('\n\n')
@@ -132,8 +133,9 @@ class SerialConnect(object):
         return soc
 
     def balancePack(self, cell, switch):
-        # TODO: Do we need to stop?
-        " balanceCell <cell number> <on|off>:\r\n set the state of the balance resistor for a specific cell\r\n"
+        # TODO: Do we need to stop, there is like on and off? and I think the first cell is 0?
+        # Top/Bottom balance? all do we just top balance all?
+        """ balanceCell <cell number> <on|off>:\r\n set the state of the balance resistor for a specific cell\r\n"""
         if cell > 70 or cell < 0:
             return "invalid input"
         return self.sendRequest("balanceCell " + cell + " " + switch)

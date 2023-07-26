@@ -6,18 +6,21 @@ import sys
 from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
 
-# TODO: logging font smaller
-# TODO: voltage and temp  font smaller
-# TODO: disconnect not working
-# TODO: balance cells: hard-coded
 
+# TODO: test disconnect problem
 
 class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
-    def  __init__(self):
+    def __init__(self):
         super(MyWindow, self).__init__()
+
         self.setupUi(MainWindow)
         self.graphSetup()
         self.sio = SerialConnect()
+
+        # ================================================
+        # Create QThread and Worker objects
+        self.thread1 = QThread()
+        self.isRunningThread = False
 
         # force to show the main page first
         self.Main.setCurrentIndex(0)
@@ -68,9 +71,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         # Stop GUI from freezing as program runs
         # https://realpython.com/python-pyqt-qthread
 
-        # ================================================
-        # Create QThread and Worker objects
-        self.thread1 = QThread()
 
         # Create a worker object
         self.battWorker = Worker_UpdateBatteryInfo(self.sio)
@@ -88,33 +88,36 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
         # Start thread
         self.thread1.start()
+        self.isRunningThread = True
 
     # all the functions being called
     def adjustCurrent(self):
         self.log("Setting current")
 
     def portSetup(self):
-        # TODO: Fix duoplication
         ports = self.sio.port_setup()
         if len(ports) != 0:
             self.portDropDown.clear()
             self.portDropDown.addItems(ports)
         else:
-            print("no port found")
+            self.log("no port found")
 
         if self.isConnected:
-            self.rescan_pb.setDisabled(True);
+            self.rescan_pb.setDisabled(True)
 
     def connectPort(self):
         if self.isConnected:
             self.disconnectPort()
 
+        if not self.isRunningThread:
+            self.thread1.start()
         selectedPort = self.portDropDown.currentText()
         self.log(f"Connecting to port: {selectedPort}")
         isConnected = self.sio.connectPort(selectedPort)
 
         if not isConnected:
             self.log("Connection failed")
+            self.connect_pb.setText("Connect!")
         else:
             self.log("Connection success")
             self.isConnected = True
@@ -123,10 +126,12 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
             self.updateData()
 
     def disconnectPort(self):
+        # kill the thread first then stop updating data
+        self.thread1.quit()
+        self.isRunningThread = False
         self.sio.disconnectPort()
         self.isConnected = False
         self.connect_pb.setText("Connect!")
-
 
     def graphSetup(self):
         self.graphWidget_current.setBackground('w')
@@ -159,7 +164,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
     def startBalancing(self):
         self.log("Start balancing")
-        self.sio.balancePack(cell=10, switch="on")
+        cellNUM = self.balancePack_textbox.toPlainText()
+        if str.isnumeric(cellNUM):
+            self.sio.balancePack(cell=int(cellNUM), switch="on")
+        else:
+            self.log("invalid input")
 
     # TODO: See the document charging procedure
     def chargingStateMachine(self):
@@ -209,7 +218,6 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                 self.state = "Charging"
                 self.startCharging_pb.setLabel("Stop Charging");
 
-
             # currentVal = self.setCurrent_input.toPlainText()
             #
             # if currentVal.isnumeric():
@@ -253,7 +261,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
                     self.state = "Pulse"
                     self.startCharging_pb.setLabel("Charging");
         else:
-                self.log("Not Charging...")
+            self.log("Not Charging...")
 
     def updateBatteryInfo(self, batteryInfo):
         Num_Cell_Per_Batch = 7
@@ -263,7 +271,7 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         cellSummary = cells[1]
 
         if cell_data == "error":
-            print("ERROR received from getBattInfo")
+            self.log("ERROR received from getBattInfo")
 
         # populate voltage table
         for BoxesIndex in range(Num_Batch):
@@ -310,15 +318,9 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.logging_texbox.verticalScrollBar().setValue(self.logging_texbox.verticalScrollBar().maximum())
 
 
-
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = MyWindow()
     MainWindow.show()
     sys.exit(app.exec())
-
-
-
-
