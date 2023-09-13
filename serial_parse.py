@@ -10,6 +10,7 @@ class SerialConnect(object):
     STLINK_NAME = "STMicroelectronics STLink Virtual COM Port"
     NUM_CELLS = 70
 
+
     def __init__(self):
         self.ser = None
         self.cell_data = {}
