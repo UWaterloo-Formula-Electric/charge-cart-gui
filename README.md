@@ -19,7 +19,7 @@ Following is the command to get python file from .ui file
 `python3 -m PyQt6.uic.pyuic -o charge_cart_GUI_testing.py -x charge_cart_GUI.ui`
 
 #### Windows
-pyuic6 -x charge_cart_GUI.ui -o charge_cart_GUI_testing.py
+`pyuic6 -x charge_cart_GUI.ui -o charge_cart_GUI_testing.py`
 
 The command will overwrite all the current code in charge_cart_GUI.py 
 so don't touch the file except for adding a constructor and git rid of generated "main" function
@@ -27,11 +27,8 @@ OR you know what you are doing
  
 
 # TODO
- 1.MiniBatch dictioanry into 5 dictionary doesn't seem to be a good idea
-    - maybe use for loop instead like for i in range(5)
- 2. Send setting current requeset
- 3. Send balancing pack request
- 4. Graph current and voltage
- 5. Add extra tables for temperature for 70 cells
- 6. Raw voltqage/pack current
- 7. State of charge
+1. test disconnect issue
+2. See charging procedure document 
+3. Figure out the returned message for each charging step machine 
+4. Send setting current request
+5. Send balancing cell request
