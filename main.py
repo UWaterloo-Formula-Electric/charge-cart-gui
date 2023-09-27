@@ -109,8 +109,10 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         if self.isConnected:
             self.disconnectPort()
 
-        if not self.isRunningThread:
-            self.thread1.start()
+        # TODO: Figure out how to stop the program
+        # if not self.isRunningThread:
+        #     self.thread1.start()
+
         selectedPort = self.portDropDown.currentText()
         self.log(f"Connecting to port: {selectedPort}")
         isConnected = self.sio.connectPort(selectedPort)
@@ -127,9 +129,11 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
 
     def disconnectPort(self):
         # kill the thread first then stop updating data
-        self.thread1.quit()
-        self.isRunningThread = False
-        self.sio.disconnectPort()
+        # self.thread1.quit()
+        # self.isRunningThread = False
+
+        # TODO: Figure this out
+        # self.sio.disconnectPort()
         self.isConnected = False
         self.connect_pb.setText("Connect!")
 
