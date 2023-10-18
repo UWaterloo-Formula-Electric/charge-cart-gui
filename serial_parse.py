@@ -121,15 +121,17 @@ class SerialConnect(object):
         if "PEC Rate" in IVBUS:
             IVBUS = IVBUS[IVBUS.find('IBUS'):]
 
-        IVBUS_Num = IVBUS.split('\n')[1].split('\t')
+        # If it is causing the issue here, replace the below line
+        # IVBUS_Num = IVBUS.split('\n')[1].split('\t')
+        IVBUS_Num = IVBUS.split('\n')[1].split()
 
-        #TODO: Splitting tab not working here dude
         IBUS = IVBUS_Num[0].strip()
         VBUS = IVBUS_Num[1].strip()
         VBATT = IVBUS_Num[2].strip()
 
         volANDTEMP = mainInfo_list[1].strip()
-        volANDTEMP_Num = volANDTEMP.split('\n')[1].split('\t')
+        # volANDTEMP_Num = volANDTEMP.split('\n')[1].split('\t')
+        volANDTEMP_Num = volANDTEMP.split('\n')[1].split()
         MinVoltage = volANDTEMP_Num[0].strip()
         MaxVoltage = volANDTEMP_Num[1].strip()
         MinTemp = volANDTEMP_Num[2].strip()
