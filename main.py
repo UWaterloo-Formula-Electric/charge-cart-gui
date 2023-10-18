@@ -1,7 +1,8 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QThread
 from serial_parse import SerialConnect
-from charge_cart_GUI import Ui_MainWindow
+# from charge_cart_GUI import Ui_MainWindow
+from charge_cart_GUI_testing import Ui_MainWindow
 import sys
 from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
@@ -54,6 +55,16 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.volBoxesList.append(self.box4_even)
         self.volBoxesList.append(self.box5_odd)
         self.volBoxesList.append(self.box5_even)
+        self.volBoxesList.append(self.box6_odd)
+        self.volBoxesList.append(self.box6_even)
+        self.volBoxesList.append(self.box7_odd)
+        self.volBoxesList.append(self.box7_even)
+        self.volBoxesList.append(self.box8_odd)
+        self.volBoxesList.append(self.box8_even)
+        self.volBoxesList.append(self.box9_odd)
+        self.volBoxesList.append(self.box9_even)
+        self.volBoxesList.append(self.box10_odd)
+        self.volBoxesList.append(self.box10_even)
 
         self.tempBoxesList = []
         self.tempBoxesList.append(self.B1_odd)
@@ -66,6 +77,16 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         self.tempBoxesList.append(self.B4_even)
         self.tempBoxesList.append(self.B5_odd)
         self.tempBoxesList.append(self.B5_even)
+        self.tempBoxesList.append(self.B6_odd)
+        self.tempBoxesList.append(self.B6_even)
+        self.tempBoxesList.append(self.B7_odd)
+        self.tempBoxesList.append(self.B7_even)
+        self.tempBoxesList.append(self.B8_odd)
+        self.tempBoxesList.append(self.B8_even)
+        self.tempBoxesList.append(self.B9_odd)
+        self.tempBoxesList.append(self.B9_even)
+        self.tempBoxesList.append(self.B10_odd)
+        self.tempBoxesList.append(self.B10_even)
 
     def updateData(self):
         # Stop GUI from freezing as program runs
@@ -271,6 +292,10 @@ class MyWindow(Ui_MainWindow, QtWidgets.QWidget):
         Num_Cell_Per_Batch = 7
         Num_Batch = 5
         cells = self.sio.get_battInfo()
+        '''
+            cells[0] is the processed summary
+            cells[1] is the processed individual data
+        '''
         cell_data = cells[0].strip().split("\r\n")
         cellSummary = cells[1]
 

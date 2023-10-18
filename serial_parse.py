@@ -4,6 +4,9 @@ import serial.tools.list_ports
 from serial import Serial
 import matplotlib.pyplot as plt
 
+# This string is only for testing purposes (fake data)
+from document.CommandOutput import fakeData
+
 
 class SerialConnect(object):
     BAUD_RATE = 230400
@@ -33,6 +36,8 @@ class SerialConnect(object):
             return False
 
     def connectPort(self, port):  # Return ports list
+        # TODO: MAKE THIS BACK TO FALSE: TRUE IS ONLY FOR TESTING PURPOSE
+        return True
         try:
             p = port.lower()
             serial_port = p.split(':')[0]
@@ -78,12 +83,19 @@ class SerialConnect(object):
         return self.isConnected
 
     def get_battInfo(self):
-        # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-        self.ser.write("battInfo\n".encode())
-        # sio.flush()
-        time.sleep(0.2)  # Wait for response
-        raw_data = self.ser.read(self.ser.inWaiting())
-        data = raw_data.decode()
+        # # sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+        # self.ser.write("battInfo\n".encode())
+        # # sio.flush()
+        # time.sleep(0.2)  # Wait for response
+        # raw_data = self.ser.read(self.ser.inWaiting())
+        # data = raw_data.decode()
+
+        # TODO: Uncomment above and remove these two lines
+        # ///////////////////////////////////////////////////////////////
+        data = fakeData
+        print("fake Data: " + fakeData)
+        # ///////////////////////////////////////////////////////////////
+
 
         if not data:
             print("ERROR: NO DATA RECEIVED FROM BATTINFO CMD")
@@ -91,7 +103,10 @@ class SerialConnect(object):
 
         else:
             ###     PARSE DATA FROM BATTINFO    ###
-            # print(data)
+            '''
+                split_data[0] is the summary
+                split_data[1] is the individual cell data
+            '''
             split_data = data.split("Index	Cell Voltage(V)	Temp Channel(degC)")
             battSummary = self.parseCellSummary(split_data[0])
             cell_data = split_data[1].split("bmu >")[0]
@@ -107,6 +122,8 @@ class SerialConnect(object):
             IVBUS = IVBUS[IVBUS.find('IBUS'):]
 
         IVBUS_Num = IVBUS.split('\n')[1].split('\t')
+
+        #TODO: Splitting tab not working here dude
         IBUS = IVBUS_Num[0].strip()
         VBUS = IVBUS_Num[1].strip()
         VBATT = IVBUS_Num[2].strip()
