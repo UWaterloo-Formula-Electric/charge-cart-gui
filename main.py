@@ -1,8 +1,8 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import QThread
 from serial_parse import SerialConnect
-# from charge_cart_GUI import Ui_MainWindow
-from charge_cart_GUI_testing import Ui_MainWindow
+from charge_cart_GUI import Ui_MainWindow
+# from charge_cart_GUI_testing import Ui_MainWindow
 import sys
 from workers import Worker_UpdateBatteryInfo
 from datetime import datetime
