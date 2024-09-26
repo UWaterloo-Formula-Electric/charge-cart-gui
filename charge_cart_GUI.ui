@@ -6,71 +6,181 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>867</width>
-    <height>623</height>
+    <width>1288</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QTabWidget" name="Main">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>90</y>
-      <width>91</width>
-      <height>16</height>
+      <x>40</x>
+      <y>10</y>
+      <width>1241</width>
+      <height>711</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
+    <property name="minimumSize">
+     <size>
+      <width>1241</width>
+      <height>711</height>
+     </size>
     </property>
-   </widget>
-   <widget class="QTabWidget" name="CellTab">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>0</y>
-      <width>701</width>
-      <height>541</height>
-     </rect>
+    <property name="maximumSize">
+     <size>
+      <width>1241</width>
+      <height>711</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>17</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+    border: 1px solid  #FFD700;
+    border-radius: 4px;
+    padding: 1px;
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px solid #C2C7CB;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; /* move to the right by 5px */
+}
+
+QTabBar::tab {
+    background:  rgba(33, 37, 43, 180);
+    border: 2px solid #C4C4C3;
+    border-bottom-color: #C2C7CB; /* same as the pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 2px;
+}
+
+QTabBar::tab:selected {
+    border-color: #9B9B9B;
+    border-bottom-color: #C2C7CB; /* same as pane color */
+}
+
+QTabBar::tab:!selected {
+    margin-top: 2px; /* make non-selected tabs look smaller */
+}
+
+QTextEdit {
+	border: 1px solid; 
+	border-radius:5px; 
+	background-color: palette(base);
+}
+
+QPushButton {
+    background-color: #FFD700;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: beige;
+    font: 14px;
+    padding: 6px;
+}
+QProgressBar {
+        border: 2px solid rgba(33, 37, 43, 180);
+        border-radius: 5px;
+        text-align: center;
+        background-color: rgba(33, 37, 43, 180);
+        color: black;
+    }
+ QProgressBar::chunk {
+        background-color: #FFD700;
+    }
+QTextEdit{
+    font-size: 8.25pt; 
+    font-weight: 400; 
+    font-style: normal;
+    background-color:  palette(base);
+}
+
+
+QHeaderView::section {
+    background-color:  #FFD700;
+    padding: 4px;
+    font-size: 14pt;
+    border-style: none;
+	border-radius:5px; 
+    border-bottom: 1px solid #fffff8;
+    border-right: 1px solid #fffff8;
+}
+
+QHeaderView::section:horizontal
+{
+    border-top: 1px solid #fffff8;
+}
+
+QHeaderView::section:vertical
+{
+    border-left: 1px solid #fffff8;
+}
+</string>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="mainTab">
      <attribute name="title">
       <string>Main</string>
      </attribute>
      <widget class="PlotWidget" name="graphWidget_current" native="true">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>290</x>
         <y>50</y>
-        <width>221</width>
-        <height>181</height>
+        <width>251</width>
+        <height>211</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px</string>
       </property>
      </widget>
      <widget class="PlotWidget" name="graphWidget_volt" native="true">
       <property name="geometry">
        <rect>
-        <x>420</x>
+        <x>560</x>
         <y>50</y>
-        <width>221</width>
-        <height>181</height>
+        <width>251</width>
+        <height>211</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px</string>
       </property>
      </widget>
      <widget class="QLabel" name="current_label">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>30</y>
-        <width>60</width>
-        <height>16</height>
+        <x>290</x>
+        <y>17</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Current</string>
@@ -79,11 +189,18 @@
      <widget class="QLabel" name="voltage_label">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>30</y>
-        <width>60</width>
-        <height>16</height>
+        <x>560</x>
+        <y>17</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Voltage</string>
@@ -92,11 +209,23 @@
      <widget class="QPlainTextEdit" name="logging_texbox">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>420</y>
-        <width>431</width>
-        <height>78</height>
+        <x>10</x>
+        <y>520</y>
+        <width>811</width>
+        <height>131</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPlainTextEdit {
+	border: 1px solid; 
+	border-radius:5px; 
+	background-color: palette(base);
+}</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
@@ -105,173 +234,17 @@
        <string>Logs</string>
       </property>
      </widget>
-     <widget class="QTextEdit" name="maxVolt_textbox">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>310</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="textInteractionFlags">
-       <set>Qt::TextSelectableByMouse</set>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="minVolt_textbox">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>370</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="maxTemp_textbox">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>310</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="minTemp_textbox">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>370</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="minVolt_label">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>350</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Min cell voltage</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="maxVolt_label">
-      <property name="geometry">
-       <rect>
-        <x>190</x>
-        <y>290</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Max cell voltage</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="maxTemp_label">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>290</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Max cell temp</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="minCell_label">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>350</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Min cell temp</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="packCurrent_textbox">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>310</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="packCurrent_label">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>290</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Pack current</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="rawVolt_textbox">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>370</y>
-        <width>104</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QLabel" name="rawVolt_label">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>350</y>
-        <width>131</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Battery raw voltage</string>
-      </property>
-     </widget>
      <widget class="QProgressBar" name="SOC_progressBar">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>260</y>
-        <width>221</width>
+        <x>290</x>
+        <y>320</y>
+        <width>531</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="value">
        <number>24</number>
@@ -280,11 +253,18 @@
      <widget class="QLabel" name="SOC_label">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>240</y>
-        <width>101</width>
-        <height>16</height>
+        <x>290</x>
+        <y>280</y>
+        <width>161</width>
+        <height>31</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="text">
        <string>State of charge</string>
@@ -293,11 +273,18 @@
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>50</y>
-        <width>141</width>
-        <height>141</height>
+        <x>10</x>
+        <y>140</y>
+        <width>251</width>
+        <height>91</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTextEdit {
+	border: 1px solid; 
+	border-radius:5px; 
+	background-color: palette(base);
+}</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -308,24 +295,40 @@
       <widget class="QPushButton" name="startCharging_pb">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>100</y>
-         <width>113</width>
+         <x>120</x>
+         <y>40</y>
+         <width>121</width>
          <height>32</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Start Charging</string>
+        <string>Start Charging!</string>
        </property>
       </widget>
       <widget class="QPushButton" name="setCurrent_pb">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
-         <width>113</width>
+         <y>40</y>
+         <width>111</width>
          <height>32</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Confirm</string>
@@ -334,35 +337,66 @@
       <widget class="QTextEdit" name="setCurrent_input">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>121</width>
+         <x>120</x>
+         <y>10</y>
+         <width>111</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'.AppleSystemUIFont'; font-size:8pt;&quot;&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
       <widget class="QLabel" name="setCurrent_label">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>10</x>
          <y>10</y>
-         <width>81</width>
-         <height>16</height>
+         <width>100</width>
+         <height>21</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Set current</string>
+        <string>Set Current:</string>
        </property>
       </widget>
      </widget>
      <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
-        <x>170</x>
-        <y>280</y>
-        <width>431</width>
-        <height>131</height>
+        <x>290</x>
+        <y>350</y>
+        <width>451</width>
+        <height>151</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -370,15 +404,296 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QLabel" name="maxVolt_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>120</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Max cell voltage</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="maxTemp_label">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>20</y>
+         <width>120</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Max cell temp</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="packCurrent_label">
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>20</y>
+         <width>120</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Pack current</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rawVolt_label">
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>90</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Pack voltage</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="minCell_label">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>90</y>
+         <width>120</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Min cell temp</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="minVolt_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>120</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Min cell voltage</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="maxVolt_textbox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:23pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="maxTemp_textbox">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>50</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="packCurrent_textbox">
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>50</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="rawVolt_textbox">
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>115</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="minTemp_textbox">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>115</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="minVolt_textbox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>115</y>
+         <width>131</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'.AppleSystemUIFont'; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
+       </property>
+      </widget>
      </widget>
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>280</y>
-        <width>141</width>
-        <height>111</height>
+        <x>10</x>
+        <y>248</y>
+        <width>251</width>
+        <height>81</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -389,23 +704,30 @@
       <widget class="QLabel" name="balancePack_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>10</y>
-         <width>81</width>
-         <height>16</height>
+         <width>72</width>
+         <height>21</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Balance Pack</string>
+        <string>Set Cell:</string>
        </property>
       </widget>
       <widget class="QTextEdit" name="balancePack_textbox">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>30</y>
-         <width>90</width>
-         <height>22</height>
+         <x>90</x>
+         <y>10</y>
+         <width>111</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -414,651 +736,532 @@
          <verstretch>2</verstretch>
         </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
        <property name="lineWidth">
         <number>1</number>
        </property>
        <property name="readOnly">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Balancing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cell Number&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::TextEditorInteraction</set>
        </property>
       </widget>
       <widget class="QPushButton" name="startBalancing_pb">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>121</width>
-         <height>32</height>
+         <x>4</x>
+         <y>40</y>
+         <width>131</width>
+         <height>31</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
        </property>
        <property name="text">
         <string>Start Balancing</string>
        </property>
       </widget>
+      <zorder>balancePack_textbox</zorder>
+      <zorder>startBalancing_pb</zorder>
+      <zorder>balancePack_label</zorder>
      </widget>
-     <widget class="QPushButton" name="connect_pb">
+     <widget class="QComboBox" name="portDropDown">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>10</y>
-        <width>113</width>
-        <height>32</height>
+        <x>120</x>
+        <y>50</y>
+        <width>131</width>
+        <height>21</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+}
+
+</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>No port found</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="maxVolt_label_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>95</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="text">
-       <string>Connect!</string>
+       <string>Select Port:</string>
       </property>
      </widget>
+     <widget class="QFrame" name="frame_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>251</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="connect_pb">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>101</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Connect!</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="rescan_pb">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>40</y>
+         <width>101</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Re-Scan</string>
+       </property>
+      </widget>
+     </widget>
+     <zorder>frame_9</zorder>
      <zorder>frame_2</zorder>
      <zorder>graphWidget_current</zorder>
      <zorder>graphWidget_volt</zorder>
      <zorder>current_label</zorder>
      <zorder>voltage_label</zorder>
      <zorder>logging_texbox</zorder>
-     <zorder>maxVolt_textbox</zorder>
-     <zorder>minVolt_textbox</zorder>
-     <zorder>maxTemp_textbox</zorder>
-     <zorder>minTemp_textbox</zorder>
-     <zorder>minVolt_label</zorder>
-     <zorder>maxVolt_label</zorder>
-     <zorder>maxTemp_label</zorder>
-     <zorder>minCell_label</zorder>
-     <zorder>packCurrent_textbox</zorder>
-     <zorder>packCurrent_label</zorder>
-     <zorder>rawVolt_textbox</zorder>
-     <zorder>rawVolt_label</zorder>
      <zorder>SOC_progressBar</zorder>
      <zorder>SOC_label</zorder>
      <zorder>frame</zorder>
      <zorder>frame_3</zorder>
-     <zorder>connect_pb</zorder>
+     <zorder>portDropDown</zorder>
+     <zorder>maxVolt_label_2</zorder>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="tempTab">
      <attribute name="title">
-      <string>Diagram</string>
+      <string>Temp</string>
      </attribute>
-     <widget class="QTableWidget" name="B1_even">
+     <widget class="QFrame" name="frame_25">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>740</x>
         <y>40</y>
-        <width>92</width>
-        <height>212</height>
+        <width>241</width>
+        <height>261</height>
        </rect>
       </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C14</string>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B4_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B4_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
+       <property name="lineWidth">
+        <number>1</number>
        </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Right</string>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box4_label_4">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
        </property>
-      </column>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 4</string>
+       </property>
+      </widget>
      </widget>
-     <widget class="QTableWidget" name="box1_odd">
+     <widget class="QFrame" name="frame_26">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>495</x>
         <y>40</y>
-        <width>92</width>
-        <height>212</height>
+        <width>241</width>
+        <height>261</height>
        </rect>
       </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B3_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B3_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_4">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
        </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
-      </row>
-      <row>
        <property name="text">
-        <string>C1</string>
+        <string>Seg 3</string>
        </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
+      </widget>
      </widget>
-     <widget class="QTableWidget" name="box2_even">
+     <widget class="QFrame" name="frame_27">
       <property name="geometry">
        <rect>
         <x>250</x>
         <y>40</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Right</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box2_odd">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>40</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box3_odd">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>40</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box3_even">
-      <property name="geometry">
-       <rect>
-        <x>460</x>
-        <y>40</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Right</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box4_even">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>290</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Right</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box5_even">
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>290</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Right</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box5_odd">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>290</y>
-        <width>92</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QLabel" name="box1_label">
-      <property name="geometry">
-       <rect>
-        <x>113</x>
-        <y>20</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Box1</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="box2_label">
-      <property name="geometry">
-       <rect>
-        <x>325</x>
-        <y>20</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Box2</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="box3_label">
-      <property name="geometry">
-       <rect>
-        <x>535</x>
-        <y>20</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Box3</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="box4_label">
-      <property name="geometry">
-       <rect>
-        <x>220</x>
-        <y>270</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Box4</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="box5_label">
-      <property name="geometry">
-       <rect>
-        <x>427</x>
-        <y>270</y>
-        <width>60</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Box5</string>
-      </property>
-     </widget>
-     <widget class="QFrame" name="frame_4">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>20</y>
-        <width>201</width>
-        <height>241</height>
+        <width>241</width>
+        <height>261</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1067,62 +1270,258 @@ p, li { white-space: pre-wrap; }
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-     </widget>
-     <widget class="QFrame" name="frame_5">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>20</y>
-        <width>201</width>
-        <height>241</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-     <widget class="QFrame" name="frame_6">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>20</y>
-        <width>201</width>
-        <height>241</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-     <widget class="QFrame" name="frame_7">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>270</y>
-        <width>201</width>
-        <height>241</height>
-       </rect>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <widget class="QTableWidget" name="box4_odd">
+      <widget class="QTableWidget" name="B2_even">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>20</y>
-         <width>92</width>
-         <height>212</height>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B2_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box2_label_4">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 2</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_29">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="box1_label_4">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 1</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="B1_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B1_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>false</bool>
@@ -1172,13 +1571,33 @@ p, li { white-space: pre-wrap; }
        </column>
       </widget>
      </widget>
-     <widget class="QFrame" name="frame_8">
+     <widget class="QLabel" name="current_label_3">
       <property name="geometry">
        <rect>
-        <x>350</x>
-        <y>270</y>
-        <width>201</width>
-        <height>241</height>
+        <x>5</x>
+        <y>-3</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Temperature</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_28">
+      <property name="geometry">
+       <rect>
+        <x>985</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -1187,722 +1606,2731 @@ p, li { white-space: pre-wrap; }
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QTableWidget" name="B5_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B5_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box5_label_4">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 5</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_30">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B6_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B6_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_5">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 6</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_32">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B7_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B7_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_7">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 7</string>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_33">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>0</y>
+         <width>241</width>
+         <height>261</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QTableWidget" name="B3_even_5">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>99</width>
+          <height>215</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+         </font>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>60</number>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>C14</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C12</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C10</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C8</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C6</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C4</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C2</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Right</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTableWidget" name="B3_odd_5">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>30</y>
+          <width>99</width>
+          <height>215</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+         </font>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>60</number>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>C13</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C11</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C9</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C7</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C5</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C3</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C1</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Left</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="box3_label_8">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>10</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Seg 3</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_34">
+      <property name="geometry">
+       <rect>
+        <x>495</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B8_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B8_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_9">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 8</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_35">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B9_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B9_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_10">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 9</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_36">
+      <property name="geometry">
+       <rect>
+        <x>985</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="B10_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="B10_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_11">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 10</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="volTab">
+     <attribute name="title">
+      <string>Voltage</string>
+     </attribute>
+     <widget class="QFrame" name="frame_5">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box2_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box2_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box2_label">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 2</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_6">
+      <property name="geometry">
+       <rect>
+        <x>495</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box3_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box3_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 3</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_7">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box4_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box4_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box4_label">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 4</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_8">
+      <property name="geometry">
+       <rect>
+        <x>985</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box5_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box5_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box5_label">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 5</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="current_label_2">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>-3</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Voltages</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_11">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box7_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box7_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box2_label_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 7</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_12">
+      <property name="geometry">
+       <rect>
+        <x>495</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box8_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box8_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 8</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_13">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box9_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box9_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box4_label_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 9</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_14">
+      <property name="geometry">
+       <rect>
+        <x>985</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box10_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box10_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box4_label_3">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 10</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_31">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>40</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="box1_label_5">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 1</string>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="box1_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box1_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_37">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>320</y>
+        <width>241</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QTableWidget" name="box6_even">
+       <property name="geometry">
+        <rect>
+         <x>25</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C2</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Right</string>
+        </property>
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTableWidget" name="box6_odd">
+       <property name="geometry">
+        <rect>
+         <x>125</x>
+         <y>35</y>
+         <width>99</width>
+         <height>216</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>60</number>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>C13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C7</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>C1</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Left</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QLabel" name="box3_label_6">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>10</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Seg 6</string>
+       </property>
+      </widget>
      </widget>
      <zorder>frame_8</zorder>
      <zorder>frame_7</zorder>
      <zorder>frame_6</zorder>
      <zorder>frame_5</zorder>
-     <zorder>frame_4</zorder>
-     <zorder>B1_even</zorder>
-     <zorder>box1_odd</zorder>
-     <zorder>box2_even</zorder>
-     <zorder>box2_odd</zorder>
-     <zorder>box3_odd</zorder>
-     <zorder>box3_even</zorder>
-     <zorder>box4_even</zorder>
-     <zorder>box5_even</zorder>
-     <zorder>box5_odd</zorder>
-     <zorder>box1_label</zorder>
-     <zorder>box2_label</zorder>
-     <zorder>box3_label</zorder>
-     <zorder>box4_label</zorder>
-     <zorder>box5_label</zorder>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="title">
-      <string>Cells</string>
-     </attribute>
-     <widget class="QTableWidget" name="tableWidget">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>40</y>
-        <width>181</width>
-        <height>171</height>
-       </rect>
-      </property>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Box1</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Box2</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Box3</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Box4</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Box5</string>
-       </property>
-      </column>
-     </widget>
-     <widget class="QTableWidget" name="box2_odd_2">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>30</y>
-        <width>242</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <item row="0" column="0">
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </item>
-      <item row="0" column="2">
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </item>
-      <item row="1" column="2">
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </item>
-      <item row="2" column="2">
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </item>
-      <item row="3" column="0">
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </item>
-      <item row="3" column="2">
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </item>
-      <item row="4" column="0">
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </item>
-      <item row="4" column="2">
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </item>
-      <item row="5" column="0">
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </item>
-      <item row="5" column="2">
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </item>
-      <item row="6" column="0">
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </item>
-      <item row="6" column="2">
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QTableWidget" name="box2_odd_3">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>260</y>
-        <width>242</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <item row="0" column="0">
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </item>
-      <item row="0" column="2">
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </item>
-      <item row="1" column="2">
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </item>
-      <item row="2" column="2">
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </item>
-      <item row="3" column="0">
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </item>
-      <item row="3" column="2">
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </item>
-      <item row="4" column="0">
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </item>
-      <item row="4" column="2">
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </item>
-      <item row="5" column="0">
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </item>
-      <item row="5" column="2">
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </item>
-      <item row="6" column="0">
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </item>
-      <item row="6" column="2">
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QTableWidget" name="box2_odd_4">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>30</y>
-        <width>242</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <item row="0" column="0">
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </item>
-      <item row="0" column="2">
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </item>
-      <item row="1" column="2">
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </item>
-      <item row="2" column="2">
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </item>
-      <item row="3" column="0">
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </item>
-      <item row="3" column="2">
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </item>
-      <item row="4" column="0">
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </item>
-      <item row="4" column="2">
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </item>
-      <item row="5" column="0">
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </item>
-      <item row="5" column="2">
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </item>
-      <item row="6" column="0">
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </item>
-      <item row="6" column="2">
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="QTableWidget" name="box2_odd_5">
-      <property name="geometry">
-       <rect>
-        <x>290</x>
-        <y>260</y>
-        <width>242</width>
-        <height>212</height>
-       </rect>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>60</number>
-      </attribute>
-      <attribute name="horizontalHeaderHighlightSections">
-       <bool>true</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <row>
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </row>
-      <column>
-       <property name="text">
-        <string>Left</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>New Column</string>
-       </property>
-      </column>
-      <item row="0" column="0">
-       <property name="text">
-        <string>C13</string>
-       </property>
-      </item>
-      <item row="0" column="2">
-       <property name="text">
-        <string>C14</string>
-       </property>
-      </item>
-      <item row="1" column="0">
-       <property name="text">
-        <string>C11</string>
-       </property>
-      </item>
-      <item row="1" column="2">
-       <property name="text">
-        <string>C12</string>
-       </property>
-      </item>
-      <item row="2" column="0">
-       <property name="text">
-        <string>C9</string>
-       </property>
-      </item>
-      <item row="2" column="2">
-       <property name="text">
-        <string>C10</string>
-       </property>
-      </item>
-      <item row="3" column="0">
-       <property name="text">
-        <string>C7</string>
-       </property>
-      </item>
-      <item row="3" column="2">
-       <property name="text">
-        <string>C8</string>
-       </property>
-      </item>
-      <item row="4" column="0">
-       <property name="text">
-        <string>C5</string>
-       </property>
-      </item>
-      <item row="4" column="2">
-       <property name="text">
-        <string>C6</string>
-       </property>
-      </item>
-      <item row="5" column="0">
-       <property name="text">
-        <string>C3</string>
-       </property>
-      </item>
-      <item row="5" column="2">
-       <property name="text">
-        <string>C4</string>
-       </property>
-      </item>
-      <item row="6" column="0">
-       <property name="text">
-        <string>C1</string>
-       </property>
-      </item>
-      <item row="6" column="2">
-       <property name="text">
-        <string>C2</string>
-       </property>
-      </item>
-     </widget>
+     <zorder>current_label_2</zorder>
+     <zorder>frame_11</zorder>
+     <zorder>frame_12</zorder>
+     <zorder>frame_13</zorder>
+     <zorder>frame_14</zorder>
+     <zorder>frame_31</zorder>
+     <zorder>frame_37</zorder>
     </widget>
    </widget>
   </widget>
@@ -1911,8 +4339,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>867</width>
-     <height>37</height>
+     <width>1288</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
